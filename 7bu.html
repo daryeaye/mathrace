@@ -975,11 +975,6 @@
               <input id="easyCount" type="number" min="0" max="8" value="4" />
               <div class="label">problems</div>
             </div>
-
-            <div class="fieldRow">
-              <input id="easyPts" type="number" min="0" max="999" value="1" />
-              <div class="label">points per problems</div>
-            </div>
           </div>
 
           <div class="levelCard">
@@ -990,10 +985,6 @@
               <div class="label">problems</div>
             </div>
 
-            <div class="fieldRow">
-              <input id="medPts" type="number" min="0" max="999" value="2" />
-              <div class="label">points per problems</div>
-            </div>
           </div>
 
           <div class="levelCard">
@@ -1004,10 +995,6 @@
               <div class="label">problems</div>
             </div>
 
-            <div class="fieldRow">
-              <input id="hardPts" type="number" min="0" max="999" value="3" />
-              <div class="label">points per problems</div>
-            </div>
           </div>
         </div>
 
@@ -1040,7 +1027,7 @@
     <!-- © True PBL. All Rights Reserved. -->
     <div class="rulesShell">
       <div class="rulesTop">
-        <div class="rulesTitle">Boards Up Rules</div>
+        <div class="rulesTitle">Boards Up Rules (for students)</div>
         <div style="font-size:14px; opacity:.75; font-weight:700;">© True PBL. All Rights Reserved.</div>
       </div>
 
@@ -1239,9 +1226,6 @@
   const easyCount = document.getElementById("easyCount");
   const medCount  = document.getElementById("medCount");
   const hardCount = document.getElementById("hardCount");
-  const easyPts   = document.getElementById("easyPts");
-  const medPts    = document.getElementById("medPts");
-  const hardPts   = document.getElementById("hardPts");
 
   const ecYesBtn = document.getElementById("ecYesBtn");
   const ecNoBtn  = document.getElementById("ecNoBtn");
@@ -1307,7 +1291,6 @@
     showEC: true,
     selectedTopics: [],
     counts: { easy: 4, medium: 4, hard: 4 },
-    pts: { easy: 1, medium: 2, hard: 3 },
     prize: {
       base:    { pts: 30,  reward: "" },
       deluxe:  { pts: 70,  reward: "" },
@@ -1498,11 +1481,11 @@
     const pools = buildPoolsForSelectedTopics(state.selectedTopics);
     buildExtraCreditPool();
 
-    const plan = [
-      { band: "easy",   count: state.counts.easy,   pts: state.pts.easy },
-      { band: "medium", count: state.counts.medium, pts: state.pts.medium },
-      { band: "hard",   count: state.counts.hard,   pts: state.pts.hard },
-    ];
+const plan = [
+  { band: "easy",   count: state.counts.easy },
+  { band: "medium", count: state.counts.medium },
+  { band: "hard",   count: state.counts.hard },
+];
 
     // fallback pool in case one band runs out
     const fallback = [].concat(pools.easy, pools.medium, pools.hard);
@@ -1517,7 +1500,6 @@
 
         state.sequence.push({
           band: step.band,
-          points: step.pts,
           topic: picked?.topic || "",
           id: picked?.id || "",
           q: picked?.question || "(No question found for your settings)",
@@ -1563,7 +1545,7 @@
 
     const cur = state.sequence[state.idx];
 
-    statusPill.textContent = `${bandLabel(cur.band)} • ${cur.points} pt${cur.points===1?"":"s"} • ${state.idx+1}/${total}`;
+statusPill.textContent = `${bandLabel(cur.band)} • ${state.idx+1}/${total}`;
 
     qText.innerHTML = toHtmlWithBreaks(cur.q || "");
     qAns.style.display = "none";
@@ -1819,10 +1801,6 @@
     state.counts.easy = clampInt(easyCount.value, 0, 200);
     state.counts.medium = clampInt(medCount.value, 0, 200);
     state.counts.hard = clampInt(hardCount.value, 0, 200);
-
-    state.pts.easy = clampInt(easyPts.value, 0, 9999);
-    state.pts.medium = clampInt(medPts.value, 0, 9999);
-    state.pts.hard = clampInt(hardPts.value, 0, 9999);
 
     state.prize.base.pts = clampInt(basePts.value, 0, 100000);
     state.prize.deluxe.pts = clampInt(deluxePts.value, 0, 100000);
