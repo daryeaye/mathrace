@@ -1,3 +1,4 @@
+
 <!-- © True PBL All Rights Reserved. Please do not duplicate, modify or use for AI training purposes.-->
 <!DOCTYPE html>
 <html lang="en">
@@ -728,15 +729,16 @@
     }
 
     .scoreBtns{
-      display:flex;
+      display:grid;
+      grid-template-columns: 3fr 1fr;
       gap: 8px;
-      justify-content:center;
-      flex-wrap: wrap;
       margin-top: 2px;
+      width: 100%;
     }
 
     .scoreBtn{
-      min-width: 64px;
+      width: 100%;
+      min-width: 0;
       font-size: 18px;
       font-weight: 900;
       padding: 9px 10px;
@@ -934,7 +936,7 @@
 
           <div class="prizeField">
             <div>Points needed:</div>
-            <input id="basePts" type="number" min="0" max="100000" value="30" />
+            <input id="basePts" type="number" min="0" max="100000" value="40" />
           </div>
 
           <div class="prizeField">
@@ -948,7 +950,7 @@
 
           <div class="prizeField">
             <div>Points needed:</div>
-            <input id="deluxePts" type="number" min="0" max="100000" value="70" />
+            <input id="deluxePts" type="number" min="0" max="100000" value="80" />
           </div>
 
           <div class="prizeField">
@@ -962,7 +964,7 @@
 
           <div class="prizeField">
             <div>Points needed:</div>
-            <input id="champPts" type="number" min="0" max="100000" value="120" />
+            <input id="champPts" type="number" min="0" max="100000" value="140" />
           </div>
 
           <div class="prizeField">
@@ -1146,18 +1148,15 @@
                 <div class="scoreBox tier0" id="scoreBox">0</div>
 
                 <div class="tierList">
-                  <div class="line baseLine"><b>Base:</b> <span class="tierPts" id="baseLine">30</span> pts</div>
-                  <div class="line deluxeLine"><b>Deluxe:</b> <span class="tierPts" id="deluxeLine">70</span> pts</div>
-                  <div class="line champLine"><b>Champion:</b> <span class="tierPts" id="champLine">120</span> pts</div>
+                  <div class="line baseLine"><b>Base:</b> <span class="tierPts" id="baseLine">40</span> pts</div>
+                  <div class="line deluxeLine"><b>Deluxe:</b> <span class="tierPts" id="deluxeLine">80</span> pts</div>
+                  <div class="line champLine"><b>Champion:</b> <span class="tierPts" id="champLine">140</span> pts</div>
                 </div>
               </div>
 
               <div class="scoreBtns">
-                <button class="scoreBtn plus" data-delta="+1" type="button">+1</button>
-                <button class="scoreBtn minus" data-delta="-1" type="button">-1</button>
-                <button class="scoreBtn plus" data-delta="+2" type="button">+2</button>
-                <button class="scoreBtn minus" data-delta="-2" type="button">-2</button>
-                <button class="scoreBtn plus" data-delta="+3" type="button">+3</button>
+                <button class="scoreBtn plus" id="scorePlusBtn" data-delta="+1" type="button">+1 point</button>
+                <button class="scoreBtn minus" id="scoreMinusBtn" data-delta="-1" type="button">-1</button>
               </div>
 
               <button class="bigAction" id="nextBtn" type="button">Next Problem ▶</button>
@@ -1271,6 +1270,7 @@
   const ecAns  = document.getElementById("ecAns");
 
   const scoreBox = document.getElementById("scoreBox");
+  const scorePlusBtn = document.getElementById("scorePlusBtn");
 
   const baseLine = document.getElementById("baseLine");
   const deluxeLine = document.getElementById("deluxeLine");
@@ -1308,9 +1308,9 @@
     selectedTopics: [],
     counts: { easy: 4, medium: 4, hard: 4 },
     prize: {
-      base:    { pts: 30,  reward: "" },
-      deluxe:  { pts: 70,  reward: "" },
-      champ:   { pts: 120, reward: "" }
+      base:    { pts: 40,  reward: "" },
+      deluxe:  { pts: 80,  reward: "" },
+      champ:   { pts: 140, reward: "" }
     },
 
     sequence: [],    // [{band, points, topic, q, a, ecQ, ecA}]
@@ -1563,6 +1563,10 @@ const plan = [
 
 const pts = (cur.points ?? ({ easy: 1, medium: 2, hard: 3 }[cur.band] ?? 1));
 statusPill.textContent = `${bandLabel(cur.band)} ${pts} point${pts===1?"":"s"} ${state.idx+1}/${total}`;
+if(scorePlusBtn){
+  scorePlusBtn.setAttribute("data-delta", `+${pts}`);
+  scorePlusBtn.textContent = `+${pts} point${pts===1?"":"s"}`;
+}
 
     qText.innerHTML = toHtmlWithBreaks(cur.q || "");
     qAns.style.display = "none";
