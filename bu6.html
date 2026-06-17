@@ -1,0 +1,2013 @@
+
+<!-- © True PBL All Rights Reserved. Please do not duplicate, modify or use for AI training purposes.-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>G6 Math Boards Up</title>
+
+  <meta name="copyright" content="© True PBL. All Rights Reserved.">
+  <meta name="author" content="True PBL">
+
+  <!-- Main UI font -->
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --font-ui: "Raleway", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      --setup-bg: #cfeeff;                 /* light blue */
+      --page-blue: #cfeeff;                /* outer light blue */
+      --shell-blue: #cfeeff;               /* inner light blue */
+
+      --ink: #0f172a;
+
+      --card: rgba(255,255,255,0.92);
+      --stroke: rgba(0,0,0,0.16);
+
+      --btn-dark: #0f172a;
+
+      --gain: #2d66ff;
+      --loss: #e33b3b;
+
+      --points-font: "Arial Black","Impact","Haettenschweiler","Franklin Gothic Heavy",sans-serif;
+
+      /* New Yellow Gradient System */
+      --tier-base: #fffdf0;      /* extra light yellow */
+      --tier-deluxe: #fff4b8;    /* light yellow */
+      --tier-champ: #ffd700;     /* gold */
+
+      --timeup: rgba(255, 205, 205, 0.85);
+
+      /* -------- QUICK SIZE TUNERS (edit these) -------- */
+      --timer-face-font: 26px;   /* default: about half of older size */
+      --timer-face-pad: 10px;
+      --timer-btn-font: 14px;
+      --timer-btn-pad: 7px 10px;
+
+      --score-font: 36px;        /* score number size */
+      --score-minh: 90px;        /* score box height */
+      --action-font: 18px;       /* black button font size */
+      --action-pad: 10px 10px;   /* black button padding */
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: var(--font-ui);
+      color: var(--ink);
+      background: var(--setup-bg);
+    }
+
+    /* hidden “sticky” copyright inside code + DOM */
+    .hiddenCopyright{ display:none !important; }
+
+    /* ---------------- SETUP PAGE ---------------- */
+    #setupPage{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 18px 18px;
+    }
+
+    #setupTitle{
+      font-size: 44px;
+      font-weight: 500;
+      margin: 6px 0 12px;
+      letter-spacing: 0.2px;
+    }
+
+    .bigPanel{
+      background: rgba(255,255,255,0.68);
+      border: 2px solid var(--stroke);
+      border-radius: 22px;
+      padding: 14px;
+      margin: 12px 0;
+    }
+
+    .panelHeader{
+      font-size: 26px;
+      font-weight: 500;
+      margin: 0 0 10px;
+    }
+
+    .topicsGridWrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 0.9fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .topicChip{
+      background: #fff;
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 18px;
+      padding: 12px 12px;
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-height: 60px;
+      user-select:none;
+    }
+
+    .topicChip input{
+      transform: scale(1.15);
+      margin: 0;
+    }
+
+    .topicChip span{
+      font-size: 20px;
+      line-height: 1.05;
+    }
+
+    .topicHintBox{
+      border-radius: 18px;
+      padding: 8px 6px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.2;
+      color: rgba(0,0,0,0.85);
+    }
+
+    .warnLine{
+      margin-top: 10px;
+      font-size: 18px;
+      background: rgba(255, 225, 225, 0.90);
+      border: 2px solid rgba(200,0,0,0.25);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display:none; /* ONLY show on Start click */
+    }
+
+    .setupRow{
+      display:grid;
+      grid-template-columns: 1.55fr 0.75fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .setupLeft{
+      background: rgba(255,255,255,0.72);
+      border: 2px solid var(--stroke);
+      border-radius: 28px;
+      padding: 14px;
+    }
+
+    .setupLeftHeader{
+      font-size: 30px;
+      font-weight: 500;
+      margin: 2px 0 8px;
+    }
+
+    .levelsGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      align-items: stretch;
+      margin-top: 6px;
+    }
+
+    .levelCard{
+      background: #fff;
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 22px;
+      padding: 12px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 160px;
+    }
+
+    .subNote{
+      font-size: 16px;
+      opacity: 0.75;
+      margin-top: -6px;
+      width: 92px;        /* same as your input width */
+      text-align: center;
+    }
+
+    .levelTitle{
+      font-size: 24px;
+      font-weight: 700;
+      opacity: 0.85;
+      margin-bottom: 2px;
+    }
+
+    .fieldRow{
+      display:flex;
+      align-items:center;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .pointsEachLine{
+  margin-top: -4px;          /* pulls it closer to the row above */
+  margin-left: 2px;          /* aligns nicely with the input edge */
+  font-size: 16px;
+  opacity: 0.75;
+}
+
+    .fieldRow .label{
+      font-size: 18px;
+      opacity: 0.75;
+    }
+
+    .fieldRow input{
+      width: 92px;
+      font-size: 20px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 2px solid rgba(0,0,0,0.16);
+      outline: none;
+    }
+
+    .setupOrderLine{
+      margin-top: 10px;
+      background: #fff;
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 16px;
+      padding: 9px 12px;
+      font-size: 20px;
+      text-align:center;
+    }
+
+    .setupRight{
+      background: rgba(255,255,255,0.72);
+      border: 2px solid var(--stroke);
+      border-radius: 28px;
+      padding: 14px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .setupRightHeader{
+      font-size: 30px;
+      font-weight: 500;
+      margin: 2px 0 6px;
+    }
+
+    .bigChoiceBtn{
+      width: 100%;
+      font-size: 34px;
+      font-weight: 800;
+      padding: 14px 10px;
+      border-radius: 16px;
+      border: 2px solid rgba(0,0,0,0.16);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .bigChoiceBtn.selected{
+      outline: 4px solid rgba(15,23,42,0.18);
+      border-color: rgba(0,0,0,0.22);
+    }
+
+    .startBtn{
+      width: 100%;
+      font-size: 34px;
+      font-weight: 800;
+      padding: 16px 12px;
+      border-radius: 20px;
+      border: none;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1.05;
+      margin-top: 2px;
+    }
+
+    .prizeHeaderRow{
+      display:flex;
+      align-items: baseline;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .prizeHeaderRow .panelHeader{ margin:0; }
+    .prizeHeaderRow .prizeHint{
+      font-size: 18px;
+      opacity: 0.85;
+    }
+
+    .prizeGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .prizeCard{
+      background: #fff;
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 22px;
+      padding: 12px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 155px;
+    }
+.prizeCard.basePrize   { background: var(--tier-base); }
+.prizeCard.deluxePrize { background: var(--tier-deluxe); }
+.prizeCard.champPrize  { background: var(--tier-champ); }
+
+
+    .prizeTitle{
+      font-size: 24px;
+      font-weight: 700;
+      text-align:center;
+      opacity: 0.85;
+    }
+
+    .prizeField{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 18px;
+      opacity: 0.85;
+    }
+
+    .prizeField input{
+      flex: 0 0 auto;
+      width: 140px;
+      font-size: 20px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border: 2px solid rgba(0,0,0,0.16);
+      outline: none;
+    }
+
+    .prizeField .rewardInput{
+      width: 100%;
+      max-width: 240px;
+    }
+
+    /* Setup footer copyright OUTSIDE all containers */
+    #setupFooter{
+      text-align: center;
+      margin: 10px 0 6px;
+      font-size: 16px;
+      opacity: 0.72;
+    }
+
+    /* ---------------- RULES PAGE ---------------- */
+    #rulesPage{
+      display:none;
+      min-height: 100vh;
+      background: var(--page-blue);
+      padding: 18px;
+    }
+
+    .rulesShell{
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.95);
+      border-radius: 22px;
+      border: 3px solid rgba(255,255,255,0.25);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.30);
+      overflow:hidden;
+    }
+
+    .rulesTop{
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.06);
+      border-bottom: 2px solid rgba(0,0,0,0.08);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rulesTitle{
+      font-size: 22px;
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    .rulesBody{
+      padding: 14px;
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .rulesImg{
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      border: 2px solid rgba(0,0,0,0.12);
+      display:block;
+    }
+
+    .rulesBtn{
+      align-self: center;
+      font-family: var(--font-ui);
+      font-size: 22px;
+      font-weight: 900;
+      padding: 12px 18px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+      background: #000;
+      color: #fff;
+    }
+
+    /* ---------------- GAME PAGE ---------------- */
+    #gamePage{
+      display:none;
+      min-height: 100vh;
+      background: var(--page-blue);
+      padding: 12px 12px 78px;
+      overflow: hidden; /* normal Chrome: no scroll */
+    }
+
+    .gameShell{
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--shell-blue);
+      border-radius: 26px;
+      border: 3px solid rgba(255,255,255,0.25);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.30);
+      padding: 10px;
+      height: calc(100vh - 102px);
+      overflow: hidden;
+    }
+
+    .gameGrid{
+      display:grid;
+      grid-template-columns: 1.55fr 0.85fr;
+      gap: 10px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .col{
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 0;
+      height: 100%;
+    }
+
+    .card{
+      background: var(--card);
+      border: 3px solid rgba(0,0,0,0.12);
+      border-radius: 18px;
+      overflow:hidden;
+      display:flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .cardHeader{
+      background: rgba(0,0,0,0.06);
+      border-bottom: 2px solid rgba(0,0,0,0.08);
+      padding: 7px 9px;
+      font-size: 20px;
+      font-weight: 500;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .headerRight{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+
+    .smallPill{
+      font-size: 13px;
+      font-weight: 900;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,0.12);
+      background: #fff;
+      font-family: var(--points-font);
+      letter-spacing: 0.4px;
+    }
+
+    .miniBtn{
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 900;
+      padding: 6px 9px;
+      border-radius: 12px;
+      border: 2px solid rgba(0,0,0,0.12);
+      background: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .cardInner{
+      padding: 8px;
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+    #timerCard .cardInner{ padding: 6px; }
+
+    .fitArea{
+      flex: 1 1 auto;
+      border-radius: 14px;
+      border: 2px dashed rgba(0,0,0,0.18);
+      background: #fff;
+      padding: 0;
+      overflow: hidden;
+      min-height: 0;
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
+    }
+
+    .splitFit{
+      width: 100%;
+      height: 100%;
+      display:flex;
+      flex-direction: column;
+    }
+
+    .fitHalf{
+      flex: 1 1 0;
+      min-height: 0;
+    }
+
+    .fitTop{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding: 8px;
+      overflow:hidden;
+    }
+
+    .fitBottom{
+      background: #fff;
+      border-top: 2px solid #fff; /* invisible divider */
+    }
+
+    .fitText{
+      width: 100%;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      line-height: 1.12;
+    }
+
+    .ecHintBar{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 9px;
+      font-size: 18px;
+      background: rgba(0,0,0,0.06);
+      border-bottom: 2px solid rgba(0,0,0,0.08);
+    }
+
+    .ecHintBar .rightNote{
+      font-size: 14px;
+      opacity: 0.7;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .answerLine{
+      display:none;
+      border-top: 2px solid rgba(0,0,0,0.10);
+      padding-top: 7px;
+      margin-top: 2px;
+      font-size: 18px;
+      text-align:center;
+      overflow-wrap:anywhere;
+      word-break: break-word;
+    }
+
+    /* Right: Timer */
+    .timerFace{
+      background:#fff;
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 14px;
+      padding: var(--timer-face-pad);
+      text-align:center;
+      font-family: var(--points-font);
+      font-size: var(--timer-face-font);
+      letter-spacing: 1px;
+      transition: background 120ms ease;
+    }
+    .timerFace.timeUp{
+      background: var(--timeup);
+    }
+
+    .btnRow{
+      display:flex;
+      gap: 6px;
+      justify-content:center;
+      flex-wrap: wrap;
+    }
+
+    .btn{
+      font-family: var(--font-ui);
+      font-size: var(--timer-btn-font);
+      font-weight: 900;
+      padding: var(--timer-btn-pad);
+      border-radius: 14px;
+      border: 2px solid rgba(0,0,0,0.14);
+      background: #fff;
+      cursor:pointer;
+      white-space: nowrap;
+    }
+
+    .btnDark{
+      background: var(--btn-dark);
+      color: #fff;
+      border-color: rgba(0,0,0,0.18);
+    }
+
+    /* Scoreboard: ONLY score window changes color */
+    .scoreBox{
+      background:#fff;
+      border: 2px solid rgba(0,0,0,0.14);
+      border-radius: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: var(--points-font);
+      font-size: var(--score-font);
+      letter-spacing: 1px;
+      min-height: var(--score-minh);
+      transition: background 140ms ease;
+    }
+    .scoreBox.tier0{ background:#fff; }
+    .scoreBox.tier1{ background: var(--tier-base); }
+    .scoreBox.tier2{ background: var(--tier-deluxe); }
+    .scoreBox.tier3{ background: linear-gradient(135deg, #ffd700, #ffb800);}
+
+    .prizeStrip{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.prizeChipWrap{
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.prizeChipLabel{
+  text-align:center;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.72;
+  letter-spacing: 0.4px;
+}
+
+.prizeChip{
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.12);
+  padding: 8px 10px;
+  background: #fff;
+  min-height: 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.baseChip{ background: var(--tier-base); }
+.deluxeChip{ background: var(--tier-deluxe); }
+.champChip{ background: var(--tier-champ); }
+
+.prizeChipText{
+  width: 100%;
+  text-align:center;
+  font-weight: 900;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+    .scoreGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .tierList{
+      border-radius: 16px;
+      padding: 4px 4px;
+      font-size: 16px;
+      line-height: 1.25;
+      display:flex;
+      flex-direction: column;
+      justify-content:center;
+      gap: 6px;
+    }
+
+    .tierList .line{
+      display:flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-start;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-radius: 10px;
+      padding: 4px 8px;
+      border: 2px solid rgba(0,0,0,0.08);
+      background: #fff;
+    }
+
+    .tierList .baseLine{ background: var(--tier-base); }
+    .tierList .deluxeLine{ background: var(--tier-deluxe); }
+    .tierList .champLine{ background: var(--tier-champ); }
+
+    .tierList b{ font-weight: 900; }
+    .tierPts{
+      font-family: var(--points-font);
+      letter-spacing: 0.2px;
+    }
+
+    .scoreBtns{
+      display:grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 8px;
+      margin-top: 2px;
+      width: 100%;
+    }
+
+    .scoreBtn{
+      width: 100%;
+      min-width: 0;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+    }
+    .plus{ background: var(--gain); }
+    .minus{ background: var(--loss); }
+
+    .bottomActions{
+      margin-top: auto; /* push to bottom of scoreboard card */
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bigAction{
+      width: 100%;
+      border-radius: 16px;
+      border: none;
+      cursor:pointer;
+      padding: var(--action-pad);
+      font-size: var(--action-font);
+      font-weight: 900;
+      background: #000;
+      color: #fff;
+      line-height: 1.1;
+      text-align: center;
+    }
+    .bigAction .small{
+      font-size: 13px;
+      font-weight: 900;
+      opacity: 0.85;
+      margin-right: 8px;
+    }
+    #nextBtn.bigAction{
+    padding: 14px 10px;  /* taller than the other two */
+    font-size: calc(var(--action-font) + 2px);
+    }
+
+    /* Answer key overlay */
+    #answerKeyOverlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      z-index: 10000;
+    }
+
+    #answerKeySheet{
+      width: min(980px, calc(100vw - 20px));
+      max-height: calc(100vh - 20px);
+      overflow: auto;
+      background: #fff;
+      color: #000;
+      border: 3px solid #000;
+      border-radius: 10px;
+      padding: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .akHeader{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .akTitle{
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .akBtns button{
+      font-size: 16px;
+      padding: 8px 10px;
+      border: 2px solid #000;
+      background: #fff;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+
+    .akTable{
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .akTable td, .akTable th{
+      border: 1.8px solid #000;
+      padding: 6px 6px;
+      vertical-align: top;
+      font-size: 13px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+    .akTable th{
+      text-align: center;
+      font-weight: 700;
+    }
+
+    /* Footer (game page) */
+    #bottomFooter{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 6px;
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      color: rgba(255,255,255,0.93);
+      text-shadow: 0 2px 0 rgba(0,0,0,0.25);
+      line-height: 1.15;
+    }
+    #bottomFooter .restart{
+      font-size: 18px;
+    }
+    #bottomFooter .copy{
+      margin-top: 4px;
+      font-size: 16px;
+      opacity: 0.92;
+    }
+
+    /* Responsive fallback (small screens can scroll) */
+    @media (max-width: 1120px){
+      .topicsGridWrap{ grid-template-columns: 1fr 1fr 1fr 1fr; }
+      .topicHintBox{ grid-column: 1 / -1; }
+    }
+    @media (max-width: 980px){
+      #gamePage, #rulesPage{ overflow:auto; }
+      .gameShell{ height: auto; min-height: calc(100vh - 102px); }
+      .gameGrid{ grid-template-columns: 1fr; }
+      .setupRow{ grid-template-columns: 1fr; }
+      .levelsGrid{ grid-template-columns: 1fr; }
+      .prizeGrid{ grid-template-columns: 1fr; }
+    }
+
+    /* Print: show only the answer key sheet */
+    @media print{
+      body *{ visibility: hidden !important; }
+      #answerKeyOverlay, #answerKeyOverlay *{ visibility: visible !important; }
+      #answerKeyOverlay{
+        display: block !important;
+        position: fixed !important;
+        inset: 0 !important;
+        background: #fff !important;
+        padding: 0 !important;
+      }
+      #answerKeySheet{
+        width: 100% !important;
+        max-height: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0.4in !important;
+      }
+      .akBtns{ display: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- hidden “sticky” copyright (so copy-paste of HTML keeps it around) -->
+  <div class="hiddenCopyright">© True PBL. All Rights Reserved.</div>
+  <div class="hiddenCopyright">© True PBL. All Rights Reserved.</div>
+
+  <!-- ===================== SETUP PAGE ===================== -->
+  <div id="setupPage">
+    <div id="setupTitle">G6 Math Boards Up</div>
+
+    <!-- Topics -->
+    <div class="bigPanel">
+      <div class="panelHeader">Topics (select up to 5)</div>
+      <div class="topicsGridWrap" id="topicsWrap"></div>
+
+      <!-- warnings (ONLY show on Start click) -->
+      <div id="topicWarn" class="warnLine">Please select up to 5 topics.</div>
+      <div id="topicNeedWarn" class="warnLine">Please select at least 1 topic.</div>
+    </div>
+
+        <!-- Prize Tier -->
+    <div class="bigPanel">
+      <div class="prizeHeaderRow">
+        <div class="panelHeader">Prize Tier:</div>
+        <div class="prizeHint">When the whole-class scoreboard reaches these points, the class earns the reward you type in.</div>
+      </div>
+
+      <div class="prizeGrid">
+<div class="prizeCard basePrize">
+          <div class="prizeTitle">Base Prize:</div>
+
+          <div class="prizeField">
+            <div>Points needed:</div>
+            <input id="basePts" type="number" min="0" max="100000" value="40" />
+          </div>
+
+          <div class="prizeField">
+            <div>Rewards:</div>
+            <input id="baseReward" class="rewardInput" type="text" placeholder="&quot;stickers&quot;" />
+          </div>
+        </div>
+
+<div class="prizeCard deluxePrize">
+          <div class="prizeTitle">Deluxe Prize:</div>
+
+          <div class="prizeField">
+            <div>Points needed:</div>
+            <input id="deluxePts" type="number" min="0" max="100000" value="80" />
+          </div>
+
+          <div class="prizeField">
+            <div>Rewards:</div>
+            <input id="deluxeReward" class="rewardInput" type="text" placeholder="&quot;candies&quot;" />
+          </div>
+        </div>
+
+<div class="prizeCard champPrize">
+          <div class="prizeTitle">Champion Prize:</div>
+
+          <div class="prizeField">
+            <div>Points needed:</div>
+            <input id="champPts" type="number" min="0" max="100000" value="140" />
+          </div>
+
+          <div class="prizeField">
+            <div>Rewards:</div>
+            <input id="champReward" class="rewardInput" type="text" placeholder="&quot;lollipop&quot;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Prize warnings (ONLY show on Start click) -->
+      <div id="prizeWarn" class="warnLine">Please set the prize tier points (Base / Deluxe / Champion).</div>
+      <div id="rewardWarn" class="warnLine">Please type the reward names (Base / Deluxe / Champion).</div>
+    </div>
+
+    <!-- Setup + Extra Credit -->
+    <div class="setupRow">
+      <div class="setupLeft">
+        <div class="setupLeftHeader">Setup:</div>
+
+        <div class="levelsGrid">
+          <div class="levelCard">
+            <div class="levelTitle">Easy level:</div>
+
+            <div class="fieldRow">
+              <input id="easyCount" type="number" min="0" max="8" value="4" />
+              <div class="label">problems</div>
+            </div>
+            <div class="subNote">1 point each</div>
+          </div>
+
+          <div class="levelCard">
+            <div class="levelTitle">Medium level:</div>
+
+            <div class="fieldRow">
+              <input id="medCount" type="number" min="0" max="8" value="4" />
+              <div class="label">problems</div>
+            </div>
+            <div class="subNote">2 points each</div>
+          </div>
+
+          <div class="levelCard">
+            <div class="levelTitle">Hard level:</div>
+
+            <div class="fieldRow">
+              <input id="hardCount" type="number" min="0" max="8" value="4" />
+              <div class="label">problems</div>
+            </div>
+            <div class="subNote">3 points each</div>
+          </div>
+        </div>
+
+        <div class="setupOrderLine">
+          Problems will be shown in <b>Easy → Medium → Hard</b> order. 
+        </div>
+      </div>
+
+      <div class="setupRight">
+        <div class="setupRightHeader">Extra Credit:</div>
+
+        <button class="bigChoiceBtn selected" id="ecYesBtn" type="button">Yes</button>
+        <button class="bigChoiceBtn" id="ecNoBtn" type="button">No</button>
+
+        <button class="startBtn" id="startBtn" type="button">Start<br/>Boards Up</button>
+
+        <!-- more hidden messages inside DOM + code -->
+        <div class="hiddenCopyright">© True PBL. All Rights Reserved.</div>
+        <!-- © True PBL. All Rights Reserved. -->
+        <!-- © True PBL. All Rights Reserved. -->
+      </div>
+    </div>
+
+    <!-- Copyright at the VERY BOTTOM of the setup page (outside containers) -->
+    <div id="setupFooter">© True PBL. All Rights Reserved.</div>
+  </div>
+
+  <!-- ===================== RULES PAGE ===================== -->
+  <div id="rulesPage">
+    <!-- © True PBL. All Rights Reserved. -->
+    <div class="rulesShell">
+      <div class="rulesTop">
+        <div class="rulesTitle">Boards Up Rules (for students)</div>
+        <div style="font-size:14px; opacity:.75; font-weight:700;">© True PBL. All Rights Reserved.</div>
+      </div>
+
+      <div class="rulesBody">
+        <img class="rulesImg" id="rulesImg" src="https://daryeaye.github.io/mathrace/boardsuprule.jpg" alt="Boards Up Rules" />
+        <button class="rulesBtn" id="rulesContinueBtn" type="button">Continue</button>
+      </div>
+    </div>
+
+    <div id="bottomFooter" aria-label="Footer">
+      <div class="restart">To restart: refresh this page.</div>
+      <div class="copy">© True PBL. All Rights Reserved.</div>
+    </div>
+  </div>
+
+  <!-- ===================== GAME PAGE ===================== -->
+  <div id="gamePage">
+    <!-- © True PBL. All Rights Reserved. -->
+    <div class="gameShell">
+      <div class="gameGrid">
+        <!-- LEFT -->
+        <div class="col">
+          <!-- Question -->
+          <div class="card" style="flex: 2.2 1 0;">
+            <div class="cardHeader">
+              <div id="questionHeaderLabel">Question #1</div>
+              <div class="headerRight">
+                <span class="smallPill" id="statusPill">EASY • 1 pt • 1/12</span>
+              </div>
+            </div>
+
+            <div class="cardInner">
+              <div class="fitArea" id="qFit">
+                <div class="splitFit">
+                  <div class="fitHalf fitTop" id="qFitTop">
+                    <div class="fitText" id="qText"></div>
+                  </div>
+                  <div class="fitHalf fitBottom" id="qFitBottom"></div>
+                </div>
+              </div>
+
+              <!-- answer shown at bottom of question container -->
+              <div class="answerLine" id="qAns"></div>
+            </div>
+          </div>
+
+          <!-- Extra Credit -->
+          <div class="card" id="ecCard" style="flex: 1 1 0;">
+            <div class="ecHintBar">
+              <div>Extra Credit</div>
+              <div class="rightNote">Get 1 additional point if you answer both questions correctly.</div>
+            </div>
+
+            <div class="cardInner">
+              <div class="fitArea" id="ecFit" style="padding: 8px;">
+                <div class="fitText" id="ecText" style="text-align:center;"></div>
+              </div>
+
+              <div class="answerLine" id="ecAns"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="col">
+          <!-- Timer (shorter + all buttons in one row) -->
+            <div class="card" id="timerCard" style="flex: 0 0 auto;">
+            <div class="cardHeader">Timer</div>
+            <div class="cardInner">
+              <div class="timerFace" id="timerFace">02:00</div>
+
+              <div class="btnRow" id="timerBtnRow">
+                <button class="btn btnDark" id="tStart" type="button">▶ Start</button>
+                <button class="btn" id="tPause" type="button">⏸ Pause</button>
+                <button class="btn" id="tReset" type="button">↺ Reset</button>
+
+                <button class="btn" id="tPlus30" type="button">+30s</button>
+                <button class="btn" id="tMinus30" type="button">−30s</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prize Rewards Strip (between Timer and Scoreboard) -->
+          <div class="card" id="prizeStripCard" style="flex: 0 0 auto;">
+            <div class="cardHeader">Rewards</div>
+            <div class="cardInner" style="padding: 8px;">
+              <div class="prizeStrip">
+                <div class="prizeChipWrap">
+                  <div class="prizeChipLabel">Base</div>
+                  <div class="prizeChip baseChip"><div class="prizeChipText" id="baseRewardChip"></div></div>
+                </div>
+                <div class="prizeChipWrap">
+                  <div class="prizeChipLabel">Deluxe</div>
+                  <div class="prizeChip deluxeChip"><div class="prizeChipText" id="deluxeRewardChip"></div></div>
+                </div>
+                <div class="prizeChipWrap">
+                  <div class="prizeChipLabel">Champion</div>
+                  <div class="prizeChip champChip"><div class="prizeChipText" id="champRewardChip"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scoreboard (shorter + black buttons always visible) -->
+          <div class="card" id="scoreCard" style="flex: 1.15 1 0;">
+            <div class="cardHeader">Scoreboard</div>
+            <div class="cardInner" id="scoreCardInner">
+              <div class="scoreGrid">
+                <div class="scoreBox tier0" id="scoreBox">0</div>
+
+                <div class="tierList">
+                  <div class="line baseLine"><b>Base:</b> <span class="tierPts" id="baseLine">40</span> pts</div>
+                  <div class="line deluxeLine"><b>Deluxe:</b> <span class="tierPts" id="deluxeLine">80</span> pts</div>
+                  <div class="line champLine"><b>Champion:</b> <span class="tierPts" id="champLine">140</span> pts</div>
+                </div>
+              </div>
+
+              <div class="scoreBtns">
+                <button class="scoreBtn plus" id="scorePlusBtn" data-delta="+1" type="button">+1 point</button>
+                <button class="scoreBtn minus" id="scoreMinusBtn" data-delta="-1" type="button">-1</button>
+              </div>
+
+              <button class="bigAction" id="nextBtn" type="button">Next Problem ▶</button>
+
+              <!-- TWO black buttons (lower right area) -->
+              <div class="bottomActions">
+                <button class="bigAction" id="revealBtn" type="button">
+                  <span class="small">(Spacebar)</span>Answer to Current Problems
+                </button>
+
+                <button class="bigAction" id="openKeyBtn" type="button">
+                  Answer Key for all questions
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /gameGrid -->
+    </div><!-- /gameShell -->
+
+    <div id="bottomFooter" aria-label="Footer">
+      <div class="restart">To restart: refresh this page.</div>
+      <div class="copy">© True PBL. All Rights Reserved.</div>
+    </div>
+  </div>
+
+  <!-- ===================== ANSWER KEY OVERLAY ===================== -->
+  <div id="answerKeyOverlay" role="dialog" aria-modal="true">
+    <div id="answerKeySheet">
+      <div class="akHeader">
+        <div class="akTitle">Answer Key — Boards Up</div>
+        <div class="akBtns">
+          <button type="button" id="akPrintBtn">Print</button>
+          <button type="button" id="akCloseBtn">Close</button>
+        </div>
+      </div>
+
+      <table class="akTable" id="akTable">
+        <thead>
+          <tr>
+            <th style="width:60px;">#</th>
+            <th style="width:90px;">Level</th>
+            <th style="width:160px;">Topic</th>
+            <th>Answer (Question)</th>
+            <th style="width:220px;">Answer (Extra Credit)</th>
+          </tr>
+        </thead>
+        <tbody id="akBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+<script>
+/* © True PBL All Rights Reserved. */
+/* © True PBL All Rights Reserved. */
+/* © True PBL All Rights Reserved. */
+(() => {
+  // ---- COPYRIGHT (repeated inside JS so it follows copied code) ----
+  const COPYRIGHT = "© True PBL. All Rights Reserved.";
+  // © True PBL All Rights Reserved.
+  // © True PBL All Rights Reserved.
+
+  // ---- DATA SOURCE (same JSON file) ----
+  const DATA_URL_PRIMARY = "https://daryeaye.github.io/xinlindywane/g6_problem_bank.json";
+  const DATA_URL_FALLBACK = "https://raw.githubusercontent.com/daryeaye/xinlindywane/main/g6_problem_bank.json";
+
+  // ---- RULES IMAGE ----
+  const RULES_IMAGE_URL = "https://daryeaye.github.io/mathrace/boardsuprule.jpg";
+
+  // --------- Setup DOM ----------
+  const setupPage = document.getElementById("setupPage");
+  const rulesPage = document.getElementById("rulesPage");
+  const gamePage  = document.getElementById("gamePage");
+
+  const rulesImg = document.getElementById("rulesImg");
+  const rulesContinueBtn = document.getElementById("rulesContinueBtn");
+
+  const topicsWrap = document.getElementById("topicsWrap");
+  const topicWarn = document.getElementById("topicWarn");
+  const topicNeedWarn = document.getElementById("topicNeedWarn");
+
+  const easyCount = document.getElementById("easyCount");
+  const medCount  = document.getElementById("medCount");
+  const hardCount = document.getElementById("hardCount");
+
+  const ecYesBtn = document.getElementById("ecYesBtn");
+  const ecNoBtn  = document.getElementById("ecNoBtn");
+  const startBtn = document.getElementById("startBtn");
+
+  const basePts = document.getElementById("basePts");
+  const deluxePts = document.getElementById("deluxePts");
+  const champPts = document.getElementById("champPts");
+  const baseReward = document.getElementById("baseReward");
+  const deluxeReward = document.getElementById("deluxeReward");
+  const champReward = document.getElementById("champReward");
+
+  const prizeWarn = document.getElementById("prizeWarn");
+  const rewardWarn = document.getElementById("rewardWarn");
+
+  // --------- Game DOM ----------
+  const questionHeaderLabel = document.getElementById("questionHeaderLabel");
+  const statusPill = document.getElementById("statusPill");
+  const nextBtn = document.getElementById("nextBtn");
+
+  const qFitTop = document.getElementById("qFitTop");
+  const qText = document.getElementById("qText");
+  const qAns  = document.getElementById("qAns");
+
+  const ecCard = document.getElementById("ecCard");
+  const ecFit  = document.getElementById("ecFit");
+  const ecText = document.getElementById("ecText");
+  const ecAns  = document.getElementById("ecAns");
+
+  const scoreBox = document.getElementById("scoreBox");
+  const scorePlusBtn = document.getElementById("scorePlusBtn");
+
+  const baseLine = document.getElementById("baseLine");
+  const deluxeLine = document.getElementById("deluxeLine");
+  const champLine = document.getElementById("champLine");
+
+  const revealBtn = document.getElementById("revealBtn");
+
+  // Timer
+  const timerFace = document.getElementById("timerFace");
+  const tStart = document.getElementById("tStart");
+  const tPause = document.getElementById("tPause");
+  const tReset = document.getElementById("tReset");
+  const tPlus30 = document.getElementById("tPlus30");
+  const tMinus30 = document.getElementById("tMinus30");
+
+  // Answer key
+  const answerKeyOverlay = document.getElementById("answerKeyOverlay");
+  const openKeyBtn = document.getElementById("openKeyBtn");
+  const akCloseBtn = document.getElementById("akCloseBtn");
+  const akPrintBtn = document.getElementById("akPrintBtn");
+  const akBody = document.getElementById("akBody");
+
+  const baseRewardChip = document.getElementById("baseRewardChip");
+  const deluxeRewardChip = document.getElementById("deluxeRewardChip");
+  const champRewardChip = document.getElementById("champRewardChip");
+
+
+  // --------- State ----------
+  let ALL = [];
+  let TOPICS = [];
+  let EC_POOL = [];
+
+  const state = {
+    showEC: true,
+    selectedTopics: [],
+    counts: { easy: 4, medium: 4, hard: 4 },
+    prize: {
+      base:    { pts: 40,  reward: "" },
+      deluxe:  { pts: 80,  reward: "" },
+      champ:   { pts: 140, reward: "" }
+    },
+
+    sequence: [],    // [{band, points, topic, q, a, ecQ, ecA}]
+    idx: 0,
+
+    usedIds: new Set(),
+    usedEcIds: new Set(),
+
+    score: 0
+  };
+
+  // ---------- helpers ----------
+  function shuffle(arr){
+    for(let i = arr.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function escapeHtml(s){
+    return (s ?? "").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;");
+  }
+
+  function toHtmlWithBreaks(s){
+    if(!s) return "";
+    return escapeHtml(s)
+      .replace(/\\n/g, "<br/>")
+      .replace(/\n/g, "<br/>");
+  }
+
+  function normalizeSingleLine(s){
+    return (s ?? "").toString().replace(/\s+/g, " ").trim();
+  }
+
+  function clampInt(v, min, max){
+    const n = parseInt(v, 10);
+    const safe = isNaN(n) ? 0 : n;
+    return Math.max(min, Math.min(max, safe));
+  }
+
+  function bandLabel(b){
+    if(b === "easy") return "EASY";
+    if(b === "medium") return "MEDIUM";
+    return "HARD";
+  }
+
+  async function fetchJson(){
+    async function tryUrl(url){
+      const r = await fetch(url, { cache: "no-store" });
+      if(!r.ok) throw new Error("bad response");
+      return await r.json();
+    }
+    try{
+      return await tryUrl(DATA_URL_PRIMARY);
+    }catch(e){
+      return await tryUrl(DATA_URL_FALLBACK);
+    }
+  }
+
+  function hideAllWarnings(){
+    topicWarn.style.display = "none";
+    topicNeedWarn.style.display = "none";
+    prizeWarn.style.display = "none";
+    rewardWarn.style.display = "none";
+  }
+
+  // ---------- topics UI ----------
+  function getSelectedTopics(){
+    return Array.from(topicsWrap.querySelectorAll("input[type='checkbox']:checked"))
+      .map(x => x.value);
+  }
+
+  // Only enforce the limit behavior (disable extras); DO NOT show warnings here.
+  function enforceTopicLimitNoWarn(){
+    const inputs = Array.from(topicsWrap.querySelectorAll("input[type='checkbox']"));
+    const checked = inputs.filter(x => x.checked);
+    const count = checked.length;
+
+    if(count >= 5){
+      inputs.forEach(x => { if(!x.checked) x.disabled = true; });
+    }else{
+      inputs.forEach(x => x.disabled = false);
+    }
+  }
+
+  function buildTopicsUI(){
+    topicsWrap.innerHTML = "";
+
+    for(let i=0;i<TOPICS.length;i++){
+      const t = TOPICS[i];
+      const lab = document.createElement("label");
+      lab.className = "topicChip";
+      lab.innerHTML = `
+        <input type="checkbox" value="${escapeHtml(t)}" />
+        <span>${escapeHtml(t).replaceAll(" ", "<br/>")}</span>
+      `;
+      topicsWrap.appendChild(lab);
+    }
+
+    // right-side hint box (like your mock)
+    const hint = document.createElement("div");
+    hint.className = "topicHintBox";
+    hint.innerHTML = `Problems will be<br/>pulled randomly from<br/>the problem bank.`;
+    topicsWrap.appendChild(hint);
+
+    topicsWrap.addEventListener("change", () => {
+      enforceTopicLimitNoWarn();
+    });
+
+    enforceTopicLimitNoWarn();
+  }
+
+  // ---------- extra credit toggle ----------
+  function setEC(v){
+    state.showEC = !!v;
+    ecYesBtn.classList.toggle("selected", state.showEC);
+    ecNoBtn.classList.toggle("selected", !state.showEC);
+  }
+
+  ecYesBtn.addEventListener("click", () => setEC(true));
+  ecNoBtn.addEventListener("click", () => setEC(false));
+
+  // ---------- build pools ----------
+  function buildPoolsForSelectedTopics(selectedTopics){
+    const topicSet = new Set(selectedTopics);
+    const pools = { easy: [], medium: [], hard: [] };
+
+    for(const item of ALL){
+      const topic = item.topic;
+      const b = (item.difficultyBand || "").toLowerCase();
+      const isEC = item.isExtraCredit || (topic || "").toLowerCase() === "extra credit";
+      if(isEC) continue;
+      if(!topic || !topicSet.has(topic)) continue;
+      if(!pools[b]) continue;
+      pools[b].push(item);
+    }
+
+    shuffle(pools.easy);
+    shuffle(pools.medium);
+    shuffle(pools.hard);
+    return pools;
+  }
+
+  function buildExtraCreditPool(){
+    EC_POOL = ALL.filter(x => x.isExtraCredit || (x.topic || "").toLowerCase() === "extra credit");
+    shuffle(EC_POOL);
+  }
+
+  function pickFromPool(arr, usedSet){
+    while(arr.length){
+      const q = arr.pop();
+      if(!q?.id) continue;
+      if(!usedSet.has(q.id)){
+        usedSet.add(q.id);
+        return q;
+      }
+    }
+    return null;
+  }
+
+  function pickExtraCredit(){
+    if(EC_POOL.length === 0) return null;
+    for(let tries=0; tries<EC_POOL.length; tries++){
+      const q = EC_POOL.shift();
+      EC_POOL.push(q);
+      if(q?.id && !state.usedEcIds.has(q.id)){
+        state.usedEcIds.add(q.id);
+        return q;
+      }
+    }
+    return EC_POOL[0] || null;
+  }
+
+  function buildSequence(){
+    state.sequence = [];
+    state.idx = 0;
+    state.usedIds = new Set();
+    state.usedEcIds = new Set();
+
+    const pools = buildPoolsForSelectedTopics(state.selectedTopics);
+    buildExtraCreditPool();
+
+const plan = [
+  { band: "easy",   count: state.counts.easy },
+  { band: "medium", count: state.counts.medium },
+  { band: "hard",   count: state.counts.hard },
+];
+
+    // fallback pool in case one band runs out
+    const fallback = [].concat(pools.easy, pools.medium, pools.hard);
+    shuffle(fallback);
+
+    for(const step of plan){
+      for(let i=0;i<step.count;i++){
+        let picked = pickFromPool(pools[step.band], state.usedIds);
+        if(!picked) picked = pickFromPool(fallback, state.usedIds);
+
+        const ecObj = state.showEC ? pickExtraCredit() : null;
+
+        state.sequence.push({
+          band: step.band,
+          topic: picked?.topic || "",
+          id: picked?.id || "",
+          q: picked?.question || "(No question found for your settings)",
+          a: picked?.answer || "",
+          ecId: ecObj?.id || "",
+          ecQ: ecObj?.question || "",
+          ecA: ecObj?.answer || ""
+        });
+      }
+    }
+  }
+
+  // ---------- auto-fit ----------
+  function fitTextToBox(fitAreaEl, textEl, maxPx, minPx){
+    if(!fitAreaEl || !textEl) return;
+    if(fitAreaEl.clientWidth <= 0 || fitAreaEl.clientHeight <= 0) return;
+
+    let size = maxPx;
+    textEl.style.fontSize = size + "px";
+
+    let guard = 260;
+    while(guard-- > 0){
+      const tooTall = textEl.scrollHeight > fitAreaEl.clientHeight;
+      const tooWide = textEl.scrollWidth > fitAreaEl.clientWidth;
+      if(!tooTall && !tooWide) break;
+      size -= 2;
+      if(size <= minPx){ size = minPx; break; }
+      textEl.style.fontSize = size + "px";
+    }
+  }
+
+  function refreshFits(){
+    fitTextToBox(qFitTop, qText, 44, 16);
+    if(state.showEC){
+      fitTextToBox(ecFit, ecText, 30, 13);
+    }
+  }
+
+  // ---------- render current ----------
+  function renderCurrent(){
+    const total = state.sequence.length || 0;
+    if(total === 0) return;
+
+    const cur = state.sequence[state.idx];
+
+    if(questionHeaderLabel){
+      questionHeaderLabel.textContent = `Question #${state.idx + 1}`;
+    }
+
+const pts = (cur.points ?? ({ easy: 1, medium: 2, hard: 3 }[cur.band] ?? 1));
+statusPill.textContent = `${bandLabel(cur.band)} ${pts} point${pts===1?"":"s"} ${state.idx+1}/${total}`;
+if(scorePlusBtn){
+  scorePlusBtn.setAttribute("data-delta", `+${pts}`);
+  scorePlusBtn.textContent = `+${pts} point${pts===1?"":"s"}`;
+}
+
+    qText.innerHTML = toHtmlWithBreaks(cur.q || "");
+    qAns.style.display = "none";
+    qAns.textContent = cur.a ? `Answer: ${cur.a}` : "";
+
+    if(state.showEC){
+      ecCard.style.display = "";
+      ecText.innerHTML = escapeHtml(normalizeSingleLine(cur.ecQ || ""));
+      ecAns.style.display = "none";
+      ecAns.textContent = cur.ecA ? `Answer: ${normalizeSingleLine(cur.ecA)}` : "";
+    }else{
+      ecCard.style.display = "none";
+    }
+
+    nextBtn.disabled = (state.idx >= total - 1);
+    nextBtn.style.opacity = nextBtn.disabled ? 0.55 : 1;
+
+    requestAnimationFrame(refreshFits);
+  }
+
+  function revealAnswers(){
+    const cur = state.sequence[state.idx];
+    if(!cur) return;
+
+    if(qAns.textContent.trim() !== "") qAns.style.display = "block";
+    if(state.showEC && ecCard.style.display !== "none" && ecAns.textContent.trim() !== "") ecAns.style.display = "block";
+
+    requestAnimationFrame(refreshFits);
+  }
+
+  function nextProblem(){
+    if(state.idx >= state.sequence.length - 1) return;
+    state.idx += 1;
+    renderCurrent();
+  }
+
+  nextBtn.addEventListener("click", nextProblem);
+  revealBtn.addEventListener("click", revealAnswers);
+
+  // ---------- Scoreboard + tier highlighting (score box only) ----------
+  function updateTierLines(){
+    baseLine.textContent = String(state.prize.base.pts || 0);
+    deluxeLine.textContent = String(state.prize.deluxe.pts || 0);
+    champLine.textContent = String(state.prize.champ.pts || 0);
+  }
+
+  function applyScoreTierColor(){
+    const s = state.score || 0;
+    const b = state.prize.base.pts || 0;
+    const d = state.prize.deluxe.pts || 0;
+    const c = state.prize.champ.pts || 0;
+
+    scoreBox.classList.remove("tier0","tier1","tier2","tier3");
+
+    if(s >= c && c > 0){
+      scoreBox.classList.add("tier3");
+    }else if(s >= d && d > 0){
+      scoreBox.classList.add("tier2");
+    }else if(s >= b && b > 0){
+      scoreBox.classList.add("tier1");
+    }else{
+      scoreBox.classList.add("tier0");
+    }
+  }
+
+  function setScore(v){
+    state.score = v;
+    scoreBox.textContent = String(state.score);
+    applyScoreTierColor();
+  }
+
+  document.querySelectorAll(".scoreBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const raw = btn.getAttribute("data-delta") || "0";
+      const delta = parseInt(raw, 10) || 0;
+      setScore((state.score || 0) + delta);
+    });
+  });
+
+  // ---------- Timer + sound + time-up red screen ----------
+  function playTimeUpSound(){
+    try{
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "sine";
+      o.frequency.value = 880;
+
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.22, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.40);
+
+      o.connect(g);
+      g.connect(ctx.destination);
+
+      o.start();
+      o.stop(ctx.currentTime + 0.42);
+
+      o.onended = () => { try{ ctx.close(); }catch(_){} };
+    }catch(_){}
+  }
+
+  let timerDefault = 120;
+  let timerSeconds = timerDefault;
+  let timerRunning = false;
+  let timerId = null;
+  let timeUpFired = false;
+
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function renderTimer(){
+    const mm = Math.floor(timerSeconds / 60);
+    const ss = timerSeconds % 60;
+    timerFace.textContent = `${pad2(mm)}:${pad2(ss)}`;
+  }
+
+  function setTimerFaceTimeUp(isUp){
+    timerFace.classList.toggle("timeUp", !!isUp);
+  }
+
+  function timerStop(){
+    timerRunning = false;
+    if(timerId){
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  function timerTick(){
+    if(!timerRunning) return;
+    timerSeconds = Math.max(0, timerSeconds - 1);
+    renderTimer();
+
+    if(timerSeconds === 0){
+      timerStop();
+      if(!timeUpFired){
+        timeUpFired = true;
+        setTimerFaceTimeUp(true);
+        playTimeUpSound();
+      }
+    }
+  }
+
+  function timerStartRun(){
+    if(timerRunning) return;
+
+    // unlock audio on user gesture
+    try{
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if(ctx.state === "suspended") ctx.resume();
+      ctx.close();
+    }catch(_){}
+
+    timerRunning = true;
+    if(timerId) clearInterval(timerId);
+    timerId = setInterval(timerTick, 1000);
+  }
+
+  function timerReset(){
+    timerStop();
+    timerSeconds = timerDefault;
+    timeUpFired = false;
+    setTimerFaceTimeUp(false);
+    renderTimer();
+  }
+
+  function timerAdd(sec){
+    timerSeconds = Math.max(0, timerSeconds + sec);
+    if(timerSeconds > 0){
+      timeUpFired = false;
+      setTimerFaceTimeUp(false);
+    }
+    renderTimer();
+  }
+
+  tStart.addEventListener("click", timerStartRun);
+  tPause.addEventListener("click", timerStop);
+  tReset.addEventListener("click", timerReset);
+  tPlus30.addEventListener("click", () => timerAdd(30));
+  tMinus30.addEventListener("click", () => timerAdd(-30));
+
+  // ---------- Answer key ----------
+  function openAnswerKey(){
+    akBody.innerHTML = "";
+    for(let i=0;i<state.sequence.length;i++){
+      const row = state.sequence[i];
+      const tr = document.createElement("tr");
+
+      const td1 = document.createElement("td"); td1.textContent = String(i+1);
+      const td2 = document.createElement("td"); td2.textContent = bandLabel(row.band);
+      const td3 = document.createElement("td"); td3.textContent = row.topic ? String(row.topic) : "";
+      const td4 = document.createElement("td"); td4.textContent = row.a ? String(row.a) : "";
+      const td5 = document.createElement("td"); td5.textContent = (state.showEC && row.ecA) ? String(row.ecA) : "";
+
+      tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4); tr.appendChild(td5);
+      akBody.appendChild(tr);
+    }
+    answerKeyOverlay.style.display = "flex";
+  }
+
+  function closeAnswerKey(){
+    answerKeyOverlay.style.display = "none";
+  }
+
+  openKeyBtn.addEventListener("click", openAnswerKey);
+  akCloseBtn.addEventListener("click", closeAnswerKey);
+  akPrintBtn.addEventListener("click", () => window.print());
+  answerKeyOverlay.addEventListener("click", (e) => {
+    if(e.target === answerKeyOverlay) closeAnswerKey();
+  });
+
+  // ---------- Keyboard shortcuts ----------
+  window.addEventListener("keydown", (e) => {
+    if(answerKeyOverlay.style.display === "flex"){
+      if(e.key === "Escape"){
+        e.preventDefault();
+        closeAnswerKey();
+      }
+      return;
+    }
+
+    // Rules page: Enter continues
+    if(rulesPage.style.display === "block"){
+      if(e.key === "Enter"){
+        e.preventDefault();
+        rulesContinueBtn.click();
+      }
+      return;
+    }
+
+    if(gamePage.style.display === "block"){
+      if(e.code === "Space"){
+        e.preventDefault();
+        revealAnswers();
+      }else if(e.key === "Enter"){
+        e.preventDefault();
+        nextProblem();
+      }
+    }
+  });
+
+    window.addEventListener("resize", () => {
+      if(gamePage.style.display === "block") {
+        refreshFits();
+        renderRewardChips(); // refit chip text on resize
+      }
+    });
+
+  // ---------- Start game ----------
+  function readSetup(){
+    state.selectedTopics = getSelectedTopics();
+
+    state.counts.easy = clampInt(easyCount.value, 0, 200);
+    state.counts.medium = clampInt(medCount.value, 0, 200);
+    state.counts.hard = clampInt(hardCount.value, 0, 200);
+
+    state.prize.base.pts = clampInt(basePts.value, 0, 100000);
+    state.prize.deluxe.pts = clampInt(deluxePts.value, 0, 100000);
+    state.prize.champ.pts = clampInt(champPts.value, 0, 100000);
+
+    state.prize.base.reward = (baseReward.value || "").trim();
+    state.prize.deluxe.reward = (deluxeReward.value || "").trim();
+    state.prize.champ.reward = (champReward.value || "").trim();
+  }
+
+  function fitTextToWidth(el, maxPx=18, minPx=10){
+  if(!el) return;
+  let size = maxPx;
+  el.style.fontSize = size + "px";
+  let guard = 80;
+  while(guard-- > 0 && el.scrollWidth > el.clientWidth){
+    size -= 1;
+    if(size <= minPx){ size = minPx; break; }
+    el.style.fontSize = size + "px";
+  }
+}
+
+function renderRewardChips(){
+  baseRewardChip.textContent = state.prize.base.reward || "";
+  deluxeRewardChip.textContent = state.prize.deluxe.reward || "";
+  champRewardChip.textContent = state.prize.champ.reward || "";
+
+  // fit after paint
+  requestAnimationFrame(() => {
+    fitTextToWidth(baseRewardChip, 18, 10);
+    fitTextToWidth(deluxeRewardChip, 18, 10);
+    fitTextToWidth(champRewardChip, 18, 10);
+  });
+}
+
+  function prizePointsAreFilled(){
+    const a = (basePts.value || "").toString().trim();
+    const b = (deluxePts.value || "").toString().trim();
+    const c = (champPts.value || "").toString().trim();
+    return (a !== "" && b !== "" && c !== "");
+  }
+
+  function rewardsAllBlank(){
+    const a = (baseReward.value || "").trim();
+    const b = (deluxeReward.value || "").trim();
+    const c = (champReward.value || "").trim();
+    return (a === "" && b === "" && c === "");
+  }
+
+  function enterRulesPage(){
+    document.body.style.background = "var(--page-blue)";
+    setupPage.style.display = "none";
+    rulesPage.style.display = "block";
+    gamePage.style.display = "none";
+
+    rulesImg.src = RULES_IMAGE_URL;
+  }
+
+  function enterGamePage(){
+    document.body.style.background = "var(--page-blue)";
+    setupPage.style.display = "none";
+    rulesPage.style.display = "none";
+    gamePage.style.display = "block";
+
+    // reset timer
+    timerDefault = 120;
+    timerSeconds = timerDefault;
+    timeUpFired = false;
+    setTimerFaceTimeUp(false);
+    renderTimer();
+    timerStop();
+
+    renderCurrent();
+    setTimeout(refreshFits, 0);
+  }
+
+  startBtn.addEventListener("click", () => {
+    hideAllWarnings();
+    readSetup();
+    renderRewardChips();
+
+    const tCount = state.selectedTopics.length;
+
+    if(tCount === 0){
+      topicNeedWarn.style.display = "block";
+      alert("Please select at least 1 topic.");
+      return;
+    }
+    if(tCount > 5){
+      topicWarn.style.display = "block";
+      alert("Please select up to 5 topics.");
+      return;
+    }
+
+    if(!prizePointsAreFilled()){
+      prizeWarn.style.display = "block";
+      alert("Please set the prize tier points (Base / Deluxe / Champion).");
+      return;
+    }
+
+    // ONLY warn if ALL THREE reward fields are blank
+    if(rewardsAllBlank()){
+      rewardWarn.style.display = "block";
+      alert("Please type the reward names (Base / Deluxe / Champion).");
+      return;
+    }
+
+    const totalProblems = state.counts.easy + state.counts.medium + state.counts.hard;
+    if(totalProblems <= 0){
+      alert("Please set at least 1 problem (Easy/Medium/Hard problems).");
+      return;
+    }
+
+    updateTierLines();
+    setScore(0);
+
+    buildSequence();
+
+    // go to rules page first
+    enterRulesPage();
+  });
+
+  rulesContinueBtn.addEventListener("click", () => {
+    enterGamePage();
+  });
+
+  // ---------- init ----------
+  async function init(){
+    ALL = await fetchJson();
+
+    // Build topic list excluding extra credit
+    const set = new Set(
+      ALL
+        .filter(x => !(x.isExtraCredit || (x.topic || "").toLowerCase() === "extra credit"))
+        .map(x => x.topic)
+        .filter(Boolean)
+    );
+    TOPICS = Array.from(set).sort((a,b) => a.localeCompare(b));
+
+    buildTopicsUI();
+    setEC(true);
+
+    hideAllWarnings();
+    updateTierLines();
+
+    renderTimer();
+    setTimerFaceTimeUp(false);
+
+    // preload rules image
+    rulesImg.src = RULES_IMAGE_URL;
+  }
+
+  init().catch(() => {
+    alert("I couldn't load the question bank. Please check your JSON link.");
+  });
+})();
+</script>
+</body>
+</html>
