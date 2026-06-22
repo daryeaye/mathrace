@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>G6 Math Tic-Tac-Toe</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=STIX+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink:#071943;
+      --blue:#0066ff;
+      --red:#ff2b2b;
+      --gold-border:#f2a900;
+      --problem-blue:#dff3ff;
+    }
+
+    body{
+      background-image:url('https://daryeaye.github.io/xinlindywane/sea.jpg');
+      background-size:cover;
+      background-position:center;
+      margin:0;
+      font-family:'Love Ya Like A Sister', cursive;
+      font-size:20px;
+      display:flex;
+      min-height:100vh;
+      align-items:center;
+      justify-content:center;
+      color:var(--ink);
+    }
+
+    .container{
+      width:min(1180px,96vw);
+      background:rgba(255,255,255,.12);
+      border-radius:20px;
+      padding:18px;
+      text-align:center;
+    }
+
+    h2{ margin:.2em 0 .5em; }
+
+    input[type="text"]{
+      width:100%;
+      padding:10px 12px;
+      border:2px solid #000;
+      border-radius:12px;
+      font-family:'Love Ya Like A Sister', cursive;
+      box-sizing:border-box;
+      background:#fff;
+      font-size:1em;
+    }
+
+    button{
+      cursor:pointer;
+      border:none;
+      border-radius:12px;
+      padding:10px 14px;
+      font-size:1em;
+      transition:transform .06s ease-in-out;
+      font-family:'Love Ya Like A Sister', cursive;
+    }
+
+    button:active{ transform:scale(.98); }
+    button:disabled{ opacity:.45; cursor:not-allowed; }
+
+    #part1{
+      width:min(760px,94vw);
+      margin:0 auto;
+      text-align:left;
+    }
+
+    .setup-card{
+      border:3px solid #000;
+      border-radius:18px;
+      padding:18px;
+      background:rgba(247,251,255,.96);
+      box-shadow:0 0 15px rgba(0,0,0,.35);
+    }
+
+    .setup-title{
+      text-align:center;
+      margin-bottom:12px;
+    }
+
+    .form-row{
+      margin:12px 0;
+    }
+
+    .form-row label{
+      display:block;
+      margin-bottom:5px;
+      font-weight:bold;
+    }
+
+    .topic-label{
+      font-size:.88em;
+    }
+
+    .topic-buttons{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:10px;
+    }
+
+    .topic-btn{
+      border:3px solid #000;
+      background:#fff;
+      color:#000;
+      min-height:52px;
+      font-size:.86em;
+      line-height:1.1;
+    }
+
+    .topic-btn.active{
+      background:#111;
+      color:#fff;
+    }
+
+    .level-buttons{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+
+    .level-btn{
+      border:3px solid #000;
+      background:#fff;
+      color:#000;
+    }
+
+    .level-btn.active{
+      background:#111;
+      color:#fff;
+    }
+
+    .setup-actions{
+      text-align:center;
+      margin-top:16px;
+    }
+
+    .primary-btn{
+      background:#111;
+      color:#fff;
+      min-width:160px;
+    }
+
+    .warning{
+      color:#b00020;
+      text-align:center;
+      margin-top:8px;
+      min-height:24px;
+    }
+
+    .rps-page{
+      background:rgba(255,255,255,.96);
+      border:3px solid #000;
+      border-radius:18px;
+      padding:24px;
+      box-shadow:0 0 15px rgba(0,0,0,.35);
+      width:min(720px,94vw);
+      margin:0 auto;
+    }
+
+    .rps-buttons{
+      display:flex;
+      gap:16px;
+      justify-content:center;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+
+    .rps-btn1{ background:rgba(0,0,255,.70); color:#fff; }
+    .rps-btn2{ background:rgba(255,0,0,.70); color:#fff; }
+
+    .hint{
+      font-size:.9em;
+      margin:.25em 0 0;
+      color:#333;
+    }
+
+    /* PAGE 3 */
+    #part3{
+      width:100%;
+    }
+
+    .game-shell{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .main-row{
+      display:grid;
+      grid-template-columns:1fr 400px;
+      gap:16px;
+      width:min(1040px,94vw);
+      margin:0 auto;
+    }
+
+    .big-window{
+      background:rgba(255,255,255,.94);
+      border:4px solid rgba(160,205,255,.95);
+      border-radius:24px;
+      padding:12px;
+      box-shadow:0 4px 14px rgba(0,0,0,.22);
+    }
+
+    .left-window{
+      display:grid;
+      grid-template-rows:1fr auto;
+      gap:10px;
+      min-height:535px;
+    }
+
+    .task-area{
+      position:relative;
+      background:linear-gradient(#fff9d8,#ffeaa3);
+      border:4px solid var(--gold-border);
+      border-radius:20px;
+      box-shadow:0 4px 12px rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px 22px;
+      min-height:250px;
+      box-sizing:border-box;
+    }
+
+    .status-text{
+      font-size:2.45em;
+      line-height:1.12;
+      font-weight:bold;
+      color:#071943;
+      text-align:center;
+    }
+
+    .player-blue{
+      color:var(--blue);
+      text-shadow:1px 2px 0 rgba(0,0,0,.10);
+    }
+
+    .player-red{
+      color:var(--red);
+      text-shadow:1px 2px 0 rgba(0,0,0,.10);
+    }
+
+    .how-btn-wrap{
+      position:absolute;
+      top:10px;
+      right:10px;
+    }
+
+    .how-btn{
+      background:#071943;
+      color:#fff;
+      border:2px solid #fff;
+      border-radius:999px;
+      padding:7px 12px;
+      font-size:.75em;
+      box-shadow:0 2px 8px rgba(0,0,0,.25);
+    }
+
+    .how-popup{
+      display:none;
+      position:absolute;
+      top:42px;
+      right:0;
+      width:330px;
+      background:#fff;
+      border:3px solid #071943;
+      border-radius:16px;
+      padding:8px;
+      box-shadow:0 6px 18px rgba(0,0,0,.35);
+      z-index:20;
+    }
+
+    .how-popup img{
+      width:100%;
+      display:block;
+      border-radius:12px;
+    }
+
+    .how-btn-wrap:hover .how-popup{
+      display:block;
+    }
+
+    .problem-area{
+      background:var(--problem-blue);
+      border:3px solid #8fcdf0;
+      border-radius:18px;
+      padding:10px;
+    }
+
+    .math-board{
+      border:3px solid #34495e;
+      border-radius:14px;
+      background:var(--problem-blue);
+      width:100%;
+      height:150px;
+      box-sizing:border-box;
+      display:block;
+    }
+
+    .answer-row{
+      display:grid;
+      grid-template-columns:1fr 150px;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    #eqInput{
+      font-size:1.05em;
+      border:3px solid #8fcdf0;
+      background:var(--problem-blue);
+    }
+
+    #eqInput::placeholder{
+      color:#5d7d92;
+    }
+
+    .eq-btn{
+      background:#071943;
+      color:#fff;
+      font-weight:bold;
+    }
+
+    .right-window{
+      min-height:535px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+    }
+
+    .board{
+      display:grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap:8px;
+      justify-content:center;
+      margin:0 auto;
+    }
+
+    .cell{
+      width:100px;
+      height:100px;
+      border:3px solid #b7c7dc;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:82px;
+      font-family:'Love Ya Like A Sister', cursive;
+      font-weight:bold;
+      user-select:none;
+      background:#fff;
+      box-shadow:inset 0 0 12px rgba(0,0,0,.05);
+      line-height:1;
+      padding-bottom:4px;
+      box-sizing:border-box;
+    }
+
+    .cell.x{
+      color:#0066ff;
+      text-shadow:2px 3px 0 rgba(0,0,0,.12);
+    }
+
+    .cell.o{
+      color:#ff2b2b;
+      text-shadow:2px 3px 0 rgba(0,0,0,.12);
+    }
+
+    .winner-lights-row{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      background:rgba(255,255,255,.9);
+      border:3px solid #cfe4ff;
+      border-radius:999px;
+      padding:8px 10px;
+      box-sizing:border-box;
+      font-size:1.02em;
+      font-weight:bold;
+      white-space:nowrap;
+    }
+
+    .winner-p1{
+      color:var(--blue);
+    }
+
+    .winner-p2{
+      color:var(--red);
+    }
+
+    .match-lights{
+      display:inline-flex;
+      gap:6px;
+      align-items:center;
+    }
+
+    .match-dot{
+      width:20px;
+      height:20px;
+      border:3px solid #777;
+      border-radius:999px;
+      background:#fff;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,.75);
+    }
+
+    .match-dot.on.X{
+      background:var(--blue);
+      border-color:var(--blue);
+    }
+
+    .match-dot.on.O{
+      background:var(--red);
+      border-color:var(--red);
+    }
+
+    .board-buttons{
+      width:100%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      box-sizing:border-box;
+    }
+
+    .restart-btn{
+      background:#1476f2;
+      color:#fff;
+      font-weight:bold;
+      font-size:.88em;
+      padding:9px 8px;
+    }
+
+    .change-btn{
+      background:#7d43d6;
+      color:#fff;
+      font-weight:bold;
+      font-size:.88em;
+      padding:9px 8px;
+    }
+
+    .info-strip{
+      width:min(620px,88vw);
+      margin:0 auto;
+      background:rgba(255,255,255,.94);
+      border:3px solid #cfe4ff;
+      border-radius:999px;
+      padding:10px 18px;
+      box-shadow:0 3px 10px rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
+      font-weight:bold;
+    }
+
+    .info-icon{
+      background:#1476f2;
+      color:#fff;
+      border-radius:999px;
+      width:32px;
+      height:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+      border:2px solid #071943;
+    }
+
+    .level-text{
+      color:#7d43d6;
+    }
+
+    .copyright{
+      font-size:.75em;
+      color:rgba(0,0,0,.65);
+      margin-top:8px;
+      background:rgba(255,255,255,.65);
+      display:inline-block;
+      padding:3px 10px;
+      border-radius:999px;
+    }
+
+    /* Winner fireworks overlay */
+    .winner-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.68);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:100;
+      overflow:hidden;
+    }
+
+    .winner-overlay.show{
+      display:flex;
+    }
+
+    .winner-card{
+      position:relative;
+      background:rgba(255,255,255,.96);
+      border:5px solid #ffd34d;
+      border-radius:28px;
+      padding:34px 42px;
+      text-align:center;
+      box-shadow:0 0 30px rgba(255,211,77,.8);
+      z-index:2;
+      width:min(600px,88vw);
+    }
+
+    .winner-title{
+      font-size:2.7em;
+      line-height:1.1;
+      margin-bottom:12px;
+      color:#071943;
+    }
+
+    .winner-subtitle{
+      font-size:1.45em;
+      margin-bottom:22px;
+    }
+
+    .winner-restart{
+      background:#1476f2;
+      color:#fff;
+      font-size:1.2em;
+      font-weight:bold;
+      padding:12px 28px;
+      border-radius:999px;
+      border:3px solid #071943;
+    }
+
+    .firework{
+      position:absolute;
+      width:12px;
+      height:12px;
+      border-radius:50%;
+      animation:explode 1.4s infinite ease-out;
+      opacity:.9;
+    }
+
+    .firework.f1{ left:18%; top:22%; background:#ff4d4d; animation-delay:0s; }
+    .firework.f2{ left:76%; top:18%; background:#4da6ff; animation-delay:.25s; }
+    .firework.f3{ left:28%; top:72%; background:#ffe04d; animation-delay:.5s; }
+    .firework.f4{ left:82%; top:68%; background:#9dff4d; animation-delay:.75s; }
+
+    @keyframes explode{
+      0%{
+        box-shadow:
+          0 0 currentColor,
+          0 0 currentColor,
+          0 0 currentColor,
+          0 0 currentColor,
+          0 0 currentColor,
+          0 0 currentColor,
+          0 0 currentColor,
+          0 0 currentColor;
+        transform:scale(.6);
+        opacity:1;
+      }
+      100%{
+        box-shadow:
+          0 -70px currentColor,
+          50px -50px currentColor,
+          70px 0 currentColor,
+          50px 50px currentColor,
+          0 70px currentColor,
+          -50px 50px currentColor,
+          -70px 0 currentColor,
+          -50px -50px currentColor;
+        transform:scale(1.4);
+        opacity:0;
+      }
+    }
+
+    @media (max-width: 1000px){
+      .main-row{
+        grid-template-columns:1fr;
+      }
+
+      .right-window{
+        min-height:auto;
+      }
+
+      .topic-buttons{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 560px){
+      .board{
+        grid-template-columns: repeat(3, 90px);
+        grid-template-rows: repeat(3, 90px);
+      }
+
+      .cell{
+        width:90px;
+        height:90px;
+        font-size:68px;
+      }
+
+      .answer-row{
+        grid-template-columns:1fr;
+      }
+
+      .board-buttons{
+        grid-template-columns:1fr;
+      }
+
+      .status-text{
+        font-size:1.75em;
+      }
+
+      .how-popup{
+        width:280px;
+      }
+
+      .winner-lights-row{
+        font-size:.86em;
+        gap:5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- PAGE 1 -->
+    <div id="part1" style="display:none;">
+      <div class="setup-card">
+        <h2 class="setup-title">G6 Math Tic-Tac-Toe</h2>
+
+        <div class="form-row">
+          <label for="player1">Player 1 Name</label>
+          <input type="text" id="player1" placeholder="Player 1 (X)">
+        </div>
+
+        <div class="form-row">
+          <label for="player2">Player 2 Name</label>
+          <input type="text" id="player2" placeholder="Player 2 (O)">
+        </div>
+
+        <div class="form-row">
+          <label class="topic-label">Choose one topic</label>
+          <div class="topic-buttons" id="topicButtons">
+            <button type="button" class="topic-btn" disabled>Loading topics...</button>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Choose one level</label>
+          <div class="level-buttons">
+            <button type="button" class="level-btn active" data-level="easy">Easy</button>
+            <button type="button" class="level-btn" data-level="medium">Medium</button>
+            <button type="button" class="level-btn" data-level="hard">Hard</button>
+          </div>
+        </div>
+
+        <div class="warning" id="setupWarning"></div>
+
+        <div class="setup-actions">
+          <button id="setupNextBtn" class="primary-btn" onclick="showRPS()" disabled>Next</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div id="part2" style="display:none;">
+      <div class="rps-page">
+        <h2>Who goes first?</h2>
+        <div class="hint">Do a quick rock-paper-scissors, then click who goes first.</div>
+
+        <div class="rps-buttons">
+          <button id="rps-btn1" class="rps-btn1" onclick="setFirstPlayer('X')"></button>
+          <button id="rps-btn2" class="rps-btn2" onclick="setFirstPlayer('O')"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div id="part3" style="display:none;">
+      <div class="game-shell">
+
+        <div class="main-row">
+
+          <div class="big-window left-window">
+            <div class="task-area">
+              <div class="how-btn-wrap">
+                <button class="how-btn" type="button">How to Play</button>
+                <div class="how-popup">
+                  <img src="https://daryeaye.github.io/xinlindywane/howtoplay.jpg" alt="How to Play">
+                </div>
+              </div>
+
+              <div class="status-text" id="status">
+                Both of you try the problem.
+              </div>
+            </div>
+
+            <div class="problem-area">
+              <canvas id="eqCanvas" class="math-board" width="700" height="150"></canvas>
+
+              <div class="answer-row">
+                <input type="text" id="eqInput" placeholder="Type your answer here" />
+                <button class="eq-btn" id="eqSubmitBtn">Check</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="big-window right-window">
+            <div class="board" id="board"></div>
+
+            <div class="winner-lights-row">
+              <span class="winner-p1" id="lightNameP1">Player 1</span>
+              <span>--</span>
+              <span class="match-lights" id="matchLights"></span>
+              <span>--</span>
+              <span class="winner-p2" id="lightNameP2">Player 2</span>
+            </div>
+
+            <div class="board-buttons">
+              <button class="restart-btn" onclick="restartRound()">↻ Restart Round</button>
+              <button class="change-btn" onclick="goToSetup()">⚑ Change Topic / Level</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-strip">
+          <div class="info-icon">i</div>
+          <div>Topic: <span id="topicText">--</span></div>
+          <div>|</div>
+          <div>Level: <span class="level-text" id="levelText">--</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="copyright">© TruePBL. All Rights Reserved.</div>
+  </div>
+
+  <!-- Winner Firework Screen -->
+  <div id="winnerOverlay" class="winner-overlay">
+    <div class="firework f1"></div>
+    <div class="firework f2"></div>
+    <div class="firework f3"></div>
+    <div class="firework f4"></div>
+
+    <div class="winner-card">
+      <div class="winner-title" id="winnerTitle">Player Wins!</div>
+      <div class="winner-subtitle">Congratulations! You win the prize!</div>
+      <button class="winner-restart" onclick="restartFromWinner()">Restart</button>
+    </div>
+  </div>
+
+  <script>
+    const BANK_URL = 'https://daryeaye.github.io/xinlindywane/g6_problem_bank.json';
+
+    let problemBank = [];
+    let selectedTopic = "";
+    let selectedLevel = "easy";
+    let usedProblemIds = [];
+
+    const LS_KEY = 'ttt_truepbl_g6_json_state_v7_three_match_lights';
+
+    function saveState() {
+      const state = {
+        stage: getStage(),
+        player1Name,
+        player2Name,
+        selectedTopic,
+        selectedLevel,
+        nextStarterMark,
+        gameActive,
+        board,
+        awaitingPlacement,
+        placer,
+        attempting,
+        roundLocked,
+        matchLights,
+        lightX,
+        lightO,
+        usedProblemIds
+      };
+
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(state));
+      } catch(e){}
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch(e) {
+        return null;
+      }
+    }
+
+    function setStage(stage){
+      document.getElementById('part1').style.display = (stage === 'part1') ? 'block' : 'none';
+      document.getElementById('part2').style.display = (stage === 'part2') ? 'block' : 'none';
+      document.getElementById('part3').style.display = (stage === 'part3') ? 'block' : 'none';
+    }
+
+    function getStage(){
+      if (document.getElementById('part3').style.display === 'block') return 'part3';
+      if (document.getElementById('part2').style.display === 'block') return 'part2';
+      return 'part1';
+    }
+
+    let player1Name = "Player 1";
+    let player2Name = "Player 2";
+
+    let nextStarterMark = "X";
+    let gameActive = false;
+
+    let board = ["","","","","","","","",""];
+
+    let awaitingPlacement = false;
+    let placer = null;
+    let attempting = null;
+    let roundLocked = false;
+
+    let matchLights = [];
+    let lightX = 0;
+    let lightO = 0;
+
+    let eqAnswerRaw = "";
+    let eqText = "";
+    let problemReady = false;
+
+    let eqCanvas;
+    let eqCtx;
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await document.fonts.ready;
+
+      eqCanvas = document.getElementById('eqCanvas');
+      eqCtx = eqCanvas.getContext('2d');
+
+      attachEvents();
+
+      const st = loadState();
+
+      if (st) {
+        player1Name = st.player1Name || "Player 1";
+        player2Name = st.player2Name || "Player 2";
+        selectedTopic = st.selectedTopic || "";
+        selectedLevel = st.selectedLevel || "easy";
+        nextStarterMark = st.nextStarterMark || "X";
+        gameActive = !!st.gameActive;
+
+        board = Array.isArray(st.board) ? st.board : ["","","","","","","","",""];
+        awaitingPlacement = !!st.awaitingPlacement;
+        placer = st.placer || null;
+        attempting = st.attempting || null;
+        roundLocked = !!st.roundLocked;
+
+        matchLights = Array.isArray(st.matchLights)
+          ? st.matchLights.filter(m => m === 'X' || m === 'O').slice(0, 3)
+          : [];
+
+        updateLightCountsFromMatchLights();
+
+        usedProblemIds = Array.isArray(st.usedProblemIds) ? st.usedProblemIds : [];
+
+        setStage(st.stage || 'part1');
+      } else {
+        setStage('part1');
+      }
+
+      renderBoard();
+      updateNamesOnScreen();
+      updateRPSButtons();
+
+      await loadProblemBank();
+      updateSetupUI();
+      updateGameInfo();
+      renderLights();
+
+      if (getStage() === 'part3') {
+        if (roundLocked) {
+          clearEquation();
+          updateStatus(`Restart the round.`, null);
+        } else {
+          updateStatus(`Both of you try the problem. ${markToName(attempting || nextStarterMark)}, please input your answer.`, attempting || nextStarterMark);
+          drawLoading();
+          fetchEquationForSelection();
+        }
+      }
+
+      saveState();
+    });
+
+    window.addEventListener('beforeunload', saveState);
+
+    function attachEvents(){
+      document.getElementById('eqSubmitBtn').addEventListener('click', submitEquation);
+
+      document.getElementById('eqInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') submitEquation();
+      });
+
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedLevel = btn.dataset.level;
+          usedProblemIds = [];
+          updateLevelButtons();
+          saveState();
+        });
+      });
+    }
+
+    async function loadProblemBank(){
+      const warning = document.getElementById('setupWarning');
+      const nextBtn = document.getElementById('setupNextBtn');
+
+      warning.textContent = '';
+      nextBtn.disabled = true;
+
+      try {
+        const res = await fetch(BANK_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error(`Problem bank loading failed: ${res.status}`);
+
+        const data = await res.json();
+
+        problemBank = data
+          .filter(p => p && p.topic && p.difficultyBand && p.question && p.answer !== undefined)
+          .map(p => ({
+            id: String(p.id || makeRandomId()),
+            topic: sanitizeText(String(p.topic)),
+            difficultyBand: sanitizeText(String(p.difficultyBand)).toLowerCase(),
+            question: sanitizeText(String(p.question)),
+            answer: sanitizeText(String(p.answer))
+          }))
+          .filter(p => !isExtraCreditTopic(p.topic))
+          .filter(p => ['easy', 'medium', 'hard'].includes(p.difficultyBand));
+
+        populateTopics();
+
+        nextBtn.disabled = false;
+        warning.textContent = '';
+      } catch(err) {
+        console.error(err);
+        warning.textContent = 'Problem bank could not load. Check the JSON link or internet connection.';
+        nextBtn.disabled = true;
+      }
+    }
+
+    function isExtraCreditTopic(topic){
+      const t = String(topic || '').toLowerCase().trim();
+      return (
+        t.includes('extra credit') ||
+        t === 'extra' ||
+        t.includes('bonus')
+      );
+    }
+
+    function makeRandomId(){
+      return 'problem-' + Math.random().toString(36).slice(2);
+    }
+
+    function populateTopics(){
+      const topics = [...new Set(problemBank.map(p => p.topic))]
+        .filter(Boolean)
+        .filter(topic => !isExtraCreditTopic(topic))
+        .sort();
+
+      if (!selectedTopic || !topics.includes(selectedTopic)) {
+        selectedTopic = topics[0] || "";
+      }
+
+      const wrap = document.getElementById('topicButtons');
+      wrap.innerHTML = '';
+
+      topics.forEach(topic => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'topic-btn';
+        btn.textContent = topic;
+        btn.dataset.topic = topic;
+
+        btn.addEventListener('click', () => {
+          selectedTopic = topic;
+          usedProblemIds = [];
+          updateTopicButtons();
+          saveState();
+        });
+
+        wrap.appendChild(btn);
+      });
+
+      updateTopicButtons();
+    }
+
+    function updateTopicButtons(){
+      document.querySelectorAll('.topic-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.topic === selectedTopic);
+      });
+    }
+
+    function updateSetupUI(){
+      document.getElementById('player1').value = player1Name === "Player 1" ? "" : player1Name;
+      document.getElementById('player2').value = player2Name === "Player 2" ? "" : player2Name;
+
+      updateTopicButtons();
+      updateLevelButtons();
+    }
+
+    function updateLevelButtons(){
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.level === selectedLevel);
+      });
+    }
+
+    function getCurrentProblemPool(){
+      return problemBank.filter(p =>
+        p.topic === selectedTopic &&
+        p.difficultyBand === selectedLevel &&
+        !isExtraCreditTopic(p.topic)
+      );
+    }
+
+    function showRPS(){
+      const warning = document.getElementById('setupWarning');
+
+      player1Name = document.getElementById("player1").value.trim() || "Player 1";
+      player2Name = document.getElementById("player2").value.trim() || "Player 2";
+      selectedLevel = selectedLevel || "easy";
+
+      if (!selectedTopic) {
+        warning.textContent = 'Please choose one topic.';
+        return;
+      }
+
+      const pool = getCurrentProblemPool();
+
+      if (!pool.length) {
+        warning.textContent = 'No problems found for this topic and level.';
+        return;
+      }
+
+      warning.textContent = '';
+
+      resetLightsForSelection();
+      usedProblemIds = [];
+
+      updateNamesOnScreen();
+      updateRPSButtons();
+      updateGameInfo();
+
+      setStage('part2');
+      saveState();
+    }
+
+    function setFirstPlayer(mark){
+      nextStarterMark = mark;
+      setStage('part3');
+      updateNamesOnScreen();
+      updateGameInfo();
+      setupNewRound();
+      saveState();
+    }
+
+    function goToSetup(){
+      setStage('part1');
+      updateStatus('', null);
+      updateSetupUI();
+      clearEquation();
+      saveState();
+    }
+
+    function updateNamesOnScreen(){
+      const p1 = document.getElementById('lightNameP1');
+      const p2 = document.getElementById('lightNameP2');
+
+      if (p1) p1.textContent = player1Name;
+      if (p2) p2.textContent = player2Name;
+    }
+
+    function updateRPSButtons(){
+      document.getElementById("rps-btn1").textContent = `${player1Name} Goes First (X)`;
+      document.getElementById("rps-btn2").textContent = `${player2Name} Goes First (O)`;
+    }
+
+    function updateGameInfo(){
+      const topicText = document.getElementById('topicText');
+      const levelText = document.getElementById('levelText');
+
+      if (topicText) topicText.textContent = selectedTopic || '--';
+      if (levelText) levelText.textContent = capitalize(selectedLevel || '--');
+    }
+
+    function setupNewRound(){
+      board = ["","","","","","","","",""];
+      renderBoard();
+
+      roundLocked = false;
+      gameActive = true;
+      awaitingPlacement = false;
+      placer = null;
+
+      beginNewProblem();
+      saveState();
+    }
+
+    function beginNewProblem(){
+      if (roundLocked) return;
+
+      attempting = nextStarterMark;
+      updateStatus(`Both of you try the problem. ${markToName(attempting)}, please input your answer.`, attempting);
+
+      drawLoading();
+      fetchEquationForSelection();
+      saveState();
+    }
+
+    function fetchEquationForSelection(){
+      if (roundLocked) return;
+
+      problemReady = false;
+
+      const pool = getCurrentProblemPool();
+
+      if (!pool.length) {
+        eqText = 'No problem found for this topic and level.';
+        eqAnswerRaw = '';
+        problemReady = false;
+        drawEquation(eqText);
+        updateStatus('Please change the topic or level.', null);
+        return;
+      }
+
+      let available = pool.filter(p => !usedProblemIds.includes(p.id));
+
+      if (!available.length) {
+        usedProblemIds = [];
+        available = pool;
+      }
+
+      const pick = available[Math.floor(Math.random() * available.length)];
+
+      usedProblemIds.push(pick.id);
+
+      eqText = pick.question;
+      eqAnswerRaw = pick.answer;
+      problemReady = true;
+
+      drawEquation(eqText);
+      saveState();
+    }
+
+    function drawLoading(){
+      eqCtx.clearRect(0, 0, eqCanvas.width, eqCanvas.height);
+      eqCtx.fillStyle = "#000";
+      eqCtx.font = "40px 'STIX Two Text', serif";
+      eqCtx.textBaseline = "middle";
+      eqCtx.fillText("Loading...", 24, eqCanvas.height / 2);
+    }
+
+    function drawEquation(text){
+      eqCtx.clearRect(0, 0, eqCanvas.width, eqCanvas.height);
+
+      const cleanText = String(text).replace(/\s+/g, ' ').trim();
+
+      eqCtx.fillStyle = "#000";
+      eqCtx.textBaseline = "alphabetic";
+
+      let fontSize = 40;
+      let lines = [];
+
+      while (fontSize >= 22) {
+        eqCtx.font = `${fontSize}px 'STIX Two Text', serif`;
+        lines = wrapCanvasText(cleanText, eqCanvas.width - 48);
+
+        const lineHeight = fontSize + 10;
+        const totalHeight = lines.length * lineHeight;
+
+        if (totalHeight <= eqCanvas.height - 24) break;
+        fontSize -= 2;
+      }
+
+      const lineHeight = fontSize + 10;
+      const totalHeight = lines.length * lineHeight;
+      let y = (eqCanvas.height - totalHeight) / 2 + fontSize;
+
+      for (const ln of lines) {
+        eqCtx.fillText(ln, 24, y);
+        y += lineHeight;
+      }
+    }
+
+    function wrapCanvasText(text, maxWidth){
+      const words = String(text).split(' ');
+      const lines = [];
+      let line = '';
+
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+
+        if (eqCtx.measureText(testLine).width > maxWidth && n > 0) {
+          lines.push(line.trim());
+          line = words[n] + ' ';
+        } else {
+          line = testLine;
+        }
+      }
+
+      if (line.trim()) lines.push(line.trim());
+      return lines;
+    }
+
+    function clearEquation(){
+      if (!eqCtx || !eqCanvas) return;
+      eqCtx.clearRect(0, 0, eqCanvas.width, eqCanvas.height);
+    }
+
+    function submitEquation(){
+      if (roundLocked) {
+        updateStatus(`Restart the round.`, null);
+        return;
+      }
+
+      if (!problemReady) {
+        updateStatus('Problem still loading...', null);
+        return;
+      }
+
+      if (awaitingPlacement) {
+        updateStatus('Great, now make a move on the board.', null);
+        return;
+      }
+
+      const who = attempting;
+
+      if (!who) {
+        updateStatus('Input the answer.', null);
+        return;
+      }
+
+      const inputEl = document.getElementById('eqInput');
+      const raw = inputEl.value.trim();
+
+      if (raw === '') {
+        updateStatus('Enter an answer.', null);
+        return;
+      }
+
+      const check = answerMatches(raw, eqAnswerRaw);
+
+      if (check.correct) {
+        placer = who;
+        updateStatus('Great, now make a move on the board.', null);
+        awaitingPlacement = true;
+        inputEl.value = '';
+        saveState();
+        return;
+      }
+
+      if (check.reason === 'fraction') {
+        updateStatus('This one must be written as a fraction. Example: 3/4', null);
+        inputEl.focus();
+        return;
+      }
+
+      attempting = opposite(who);
+      updateStatus(`Sorry. Now, the other player will input the answer. ${markToName(attempting)}, please input your answer.`, attempting);
+      inputEl.value = '';
+      inputEl.focus();
+      saveState();
+    }
+
+    function answerMatches(rawInput, expectedAnswer){
+      const raw = String(rawInput ?? '').trim();
+      const expected = String(expectedAnswer ?? '').trim();
+
+      if (!raw || !expected) return { correct:false };
+
+      const rawExact = normalizeForExactCompare(raw);
+      const expectedExact = normalizeForExactCompare(expected);
+
+      if (rawExact === expectedExact) {
+        return { correct:true };
+      }
+
+      if (expectedRequiresFractionFormat(expected) && !raw.includes('/')) {
+        return { correct:false, reason:'fraction' };
+      }
+
+      const rawValue = parseFlexibleNumber(raw);
+      const expectedValue = parseFlexibleNumber(expected);
+
+      if (Number.isFinite(rawValue) && Number.isFinite(expectedValue)) {
+        if (Math.abs(rawValue - expectedValue) < 1e-6) {
+          return { correct:true };
+        }
+      }
+
+      return { correct:false };
+    }
+
+    function expectedRequiresFractionFormat(expected){
+      const s = String(expected ?? '').trim();
+      return /-?\d+\s*\/\s*-?\d+/.test(s);
+    }
+
+    function normalizeForExactCompare(s){
+      return String(s ?? '')
+        .toLowerCase()
+        .replace(/[\u2012\u2013\u2014\u2212]/g, '-')
+        .replace(/≥/g, '>=')
+        .replace(/≤/g, '<=')
+        .replace(/×|·/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/\bdivide by\b/g, '/')
+        .replace(/\btimes\b/g, '*')
+        .replace(/\bplus\b/g, '+')
+        .replace(/\bminus\b/g, '-')
+        .replace(/\s+/g, '')
+        .trim();
+    }
+
+    function parseFlexibleNumber(s){
+      let t = String(s ?? '').trim();
+
+      if (!t) return NaN;
+
+      t = t
+        .replace(/[\u2012\u2013\u2014\u2212]/g, '-')
+        .replace(/,/g, '')
+        .replace(/^\$/, '')
+        .trim();
+
+      const assignment = t.match(/^[a-zA-Z]\s*=\s*(.+)$/);
+
+      if (assignment) {
+        return parseExactNumber(assignment[1].trim());
+      }
+
+      const exact = parseExactNumber(t);
+
+      if (Number.isFinite(exact)) return exact;
+
+      const unitMatch = t.match(/^(-?\d+\s+\d+\/\d+|-?\d+\/\d+|-?\d+(?:\.\d+)?)(?:\s+)?(.+)$/);
+
+      if (unitMatch) {
+        const numberPart = unitMatch[1].trim();
+        const rest = unitMatch[2].trim();
+
+        if (!/[=+*×÷/<>≤≥]/.test(rest)) {
+          return parseExactNumber(numberPart);
+        }
+      }
+
+      return NaN;
+    }
+
+    function parseExactNumber(s){
+      let t = String(s ?? '').trim();
+
+      if (!t) return NaN;
+
+      t = t
+        .replace(/[\u2012\u2013\u2014\u2212]/g, '-')
+        .replace(/,/g, '')
+        .replace(/^\$/, '')
+        .trim();
+
+      let mixed = t.match(/^(-?\d+)\s+(\d+)\/(\d+)$/);
+
+      if (mixed) {
+        const whole = Number(mixed[1]);
+        const numerator = Number(mixed[2]);
+        const denominator = Number(mixed[3]);
+
+        if (!Number.isFinite(whole) || !Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) {
+          return NaN;
+        }
+
+        const fraction = numerator / denominator;
+        return whole < 0 ? whole - fraction : whole + fraction;
+      }
+
+      let frac = t.match(/^(-?\d+(?:\.\d+)?)\/(-?\d+(?:\.\d+)?)$/);
+
+      if (frac) {
+        const n = Number(frac[1]);
+        const d = Number(frac[2]);
+
+        if (!Number.isFinite(n) || !Number.isFinite(d) || d === 0) {
+          return NaN;
+        }
+
+        return n / d;
+      }
+
+      if (/^-?\d+(?:\.\d+)?$/.test(t)) {
+        const v = Number(t);
+        return Number.isFinite(v) ? v : NaN;
+      }
+
+      return NaN;
+    }
+
+    function renderBoard(){
+      const el = document.getElementById('board');
+      el.innerHTML = '';
+
+      board.forEach((v, i) => {
+        const d = document.createElement('div');
+        d.className = 'cell';
+
+        if (v === 'X') d.classList.add('x');
+        if (v === 'O') d.classList.add('o');
+
+        d.textContent = v;
+        d.onclick = () => placeIfAllowed(i);
+
+        el.appendChild(d);
+      });
+    }
+
+    function placeIfAllowed(i){
+      if (!gameActive || roundLocked) return;
+
+      if (!awaitingPlacement) {
+        updateStatus('Input the answer.', null);
+        return;
+      }
+
+      if (board[i] !== '') return;
+
+      const mark = placer;
+      board[i] = mark;
+
+      renderBoard();
+      saveState();
+
+      const outcome = evaluateOutcome();
+
+      if (outcome.type === 'win') {
+        lightWin(outcome.winner);
+        endRoundLocked(outcome.winner);
+      } else if (outcome.type === 'draw') {
+        lightWin(outcome.winner);
+        endRoundLocked(outcome.winner);
+      } else {
+        nextStarterMark = opposite(mark);
+        awaitingPlacement = false;
+        placer = null;
+        beginNewProblem();
+        saveState();
+      }
+    }
+
+    function evaluateOutcome(){
+      const W = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+
+      for (const [a,b,c] of W) {
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+          return { type:'win', winner:board[a] };
+        }
+      }
+
+      if (board.includes('')) {
+        return { type:'ongoing' };
+      }
+
+      const movesX = board.filter(v => v === 'X').length;
+      const movesO = board.filter(v => v === 'O').length;
+      const winner = movesX > movesO ? 'X' : 'O';
+
+      return { type:'draw', winner };
+    }
+
+    function endRoundLocked(winner){
+      roundLocked = true;
+      awaitingPlacement = false;
+      placer = null;
+      problemReady = false;
+
+      clearEquation();
+
+      const winnerName = markToName(winner);
+      updateStatus(`${winnerName} wins this round! Restart the round.`, winner);
+
+      saveState();
+      maybePromptFinish(winner);
+    }
+
+    function restartRound(){
+      setStage('part2');
+      updateRPSButtons();
+      updateStatus('', null);
+
+      board = ["","","","","","","","",""];
+      renderBoard();
+
+      awaitingPlacement = false;
+      placer = null;
+      attempting = null;
+      problemReady = false;
+
+      clearEquation();
+      roundLocked = false;
+
+      saveState();
+    }
+
+    function resetLightsForSelection(){
+      matchLights = [];
+      lightX = 0;
+      lightO = 0;
+      renderLights();
+      saveState();
+    }
+
+    function updateLightCountsFromMatchLights(){
+      lightX = matchLights.filter(m => m === 'X').length;
+      lightO = matchLights.filter(m => m === 'O').length;
+    }
+
+    function renderLights(){
+      const ml = document.getElementById('matchLights');
+      if (!ml) return;
+
+      ml.innerHTML = '';
+
+      for (let i = 0; i < 3; i++) {
+        const mark = matchLights[i] || '';
+        const d = document.createElement('div');
+        d.className = 'match-dot';
+
+        if (mark === 'X') d.classList.add('on', 'X');
+        if (mark === 'O') d.classList.add('on', 'O');
+
+        ml.appendChild(d);
+      }
+    }
+
+    function lightWin(mark){
+      if (matchLights.length < 3) {
+        matchLights.push(mark);
+      }
+
+      updateLightCountsFromMatchLights();
+      renderLights();
+      saveState();
+    }
+
+    function maybePromptFinish(winner){
+      if (winner === 'X' && lightX >= 2) {
+        showWinnerOverlay(player1Name, 'X');
+      }
+
+      if (winner === 'O' && lightO >= 2) {
+        showWinnerOverlay(player2Name, 'O');
+      }
+    }
+
+    function showWinnerOverlay(name, mark){
+      const overlay = document.getElementById('winnerOverlay');
+      const title = document.getElementById('winnerTitle');
+
+      title.innerHTML = `<span class="${mark === 'X' ? 'player-blue' : 'player-red'}">${escapeHtml(name)}</span> Wins!`;
+      overlay.classList.add('show');
+    }
+
+    function restartFromWinner(){
+      const overlay = document.getElementById('winnerOverlay');
+      overlay.classList.remove('show');
+
+      resetLightsForSelection();
+      usedProblemIds = [];
+
+      board = ["","","","","","","","",""];
+      renderBoard();
+
+      awaitingPlacement = false;
+      placer = null;
+      attempting = null;
+      problemReady = false;
+      roundLocked = false;
+
+      clearEquation();
+
+      setStage('part1');
+      updateStatus('', null);
+      updateSetupUI();
+      updateGameInfo();
+      saveState();
+    }
+
+    function sanitizeText(s){
+      return String(s ?? '')
+        .replace(/[\u2012\u2013\u2014\u2212]/g, '-')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function opposite(m){
+      return m === 'X' ? 'O' : 'X';
+    }
+
+    function markToName(mark){
+      return mark === 'X' ? player1Name : player2Name;
+    }
+
+    function updateStatus(t, markToHighlight = null){
+      const status = document.getElementById('status');
+
+      if (!status) return;
+
+      let safe = escapeHtml(t);
+
+      if (markToHighlight) {
+        const name = markToName(markToHighlight);
+        const safeName = escapeHtml(name);
+        const cls = markToHighlight === 'X' ? 'player-blue' : 'player-red';
+        safe = safe.replace(safeName, `<span class="${cls}">${safeName}</span>`);
+      }
+
+      status.innerHTML = safe;
+      saveState();
+    }
+
+    function escapeHtml(s){
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function capitalize(s){
+      s = String(s || '');
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+    }
+  </script>
+</body>
+</html>
