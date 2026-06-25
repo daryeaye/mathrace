@@ -660,6 +660,22 @@
   align-items: stretch;
 }
 
+.prizeRewardItem{
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.prizeLabel{
+  font-size: 11px;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1;
+  opacity: 0.75;
+  letter-spacing: 0.2px;
+}
+
 .prizeChip{
   border-radius: 14px;
   border: 2px solid rgba(0,0,0,0.12);
@@ -1071,7 +1087,7 @@
           <!-- Question -->
           <div class="card" style="flex: 2.2 1 0;">
             <div class="cardHeader">
-              <div>Question</div>
+              <div id="questionHeaderLabel">Question #1</div>
               <div class="headerRight">
                 <span class="smallPill" id="statusPill">EASY • 1 pt • 1/12</span>
               </div>
@@ -1133,9 +1149,18 @@
             <div class="cardHeader">Rewards</div>
             <div class="cardInner" style="padding: 8px;">
               <div class="prizeStrip">
-                <div class="prizeChip baseChip"><div class="prizeChipText" id="baseRewardChip"></div></div>
-                <div class="prizeChip deluxeChip"><div class="prizeChipText" id="deluxeRewardChip"></div></div>
-                <div class="prizeChip champChip"><div class="prizeChipText" id="champRewardChip"></div></div>
+                <div class="prizeRewardItem">
+                  <div class="prizeLabel">Base</div>
+                  <div class="prizeChip baseChip"><div class="prizeChipText" id="baseRewardChip"></div></div>
+                </div>
+                <div class="prizeRewardItem">
+                  <div class="prizeLabel">Deluxe</div>
+                  <div class="prizeChip deluxeChip"><div class="prizeChipText" id="deluxeRewardChip"></div></div>
+                </div>
+                <div class="prizeRewardItem">
+                  <div class="prizeLabel">Champion</div>
+                  <div class="prizeChip champChip"><div class="prizeChipText" id="champRewardChip"></div></div>
+                </div>
               </div>
             </div>
           </div>
@@ -1257,6 +1282,7 @@
   const rewardWarn = document.getElementById("rewardWarn");
 
   // --------- Game DOM ----------
+  const questionHeaderLabel = document.getElementById("questionHeaderLabel");
   const statusPill = document.getElementById("statusPill");
   const nextBtn = document.getElementById("nextBtn");
 
@@ -1562,6 +1588,9 @@ const plan = [
     const cur = state.sequence[state.idx];
 
 const pts = (cur.points ?? ({ easy: 1, medium: 2, hard: 3 }[cur.band] ?? 1));
+if(questionHeaderLabel){
+  questionHeaderLabel.textContent = `Question #${state.idx + 1}`;
+}
 statusPill.textContent = `${bandLabel(cur.band)} ${pts} point${pts===1?"":"s"} ${state.idx+1}/${total}`;
 if(scorePlusBtn){
   scorePlusBtn.setAttribute("data-delta", `+${pts}`);
